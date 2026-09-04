@@ -1,0 +1,1908 @@
+\documentclass[10pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[spanish, es-noshorthands]{babel}
+\usepackage[a4paper, margin=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage{tikz}
+\usepackage{amsmath}
+\usepackage[round,authoryear]{natbib}
+\usepackage{float}
+\usepackage{placeins}
+\usepackage{amssymb}
+\usetikzlibrary{arrows.meta, positioning} 
+\makeatletter
+\renewcommand\@biblabel[1]{}
+\makeatother
+\usepackage{multicol}
+\usepackage{listings}
+\usepackage{xcolor} % Para definir los colores del código
+\usepackage{xurl}
+\usepackage{booktabs} % Asegúrate de tener esto en tu preámbulo
+
+% Configuración del estilo de Python
+\lstset{
+    language=Python,
+    backgroundcolor=\color{gray!5},   % Fondo gris claro
+    basicstyle=\ttfamily\small,       % Fuente monospace pequeña
+    keywordstyle=\color{blue}\bfseries, % Palabras clave en azul y negrita
+    commentstyle=\color{green!50!black}, % Comentarios en verde oscuro
+    stringstyle=\color{orange},       % Cadenas de texto en naranja
+    numbers=left,                     % Números de línea a la izquierda
+    numberstyle=\tiny\color{gray},    % Tamaño y color de los números
+    stepnumber=1,                     % Numerar cada línea
+    breaklines=true,                  % Salto de línea automático si es muy largo
+    frame=single,                     % Añade un marco simple alrededor del código
+    showstringspaces=false,           % No muestra espacios raros en los strings
+    literate={á}{{\'a}}1 {é}{{\'e}}1 {í}{{\'i}}1 {ó}{{\'o}}1 {ú}{{\'u}}1
+             {Á}{{\'A}}1 {É}{{\'E}}1 {Í}{{\'I}}1 {Ó}{{\'O}}1 {Ú}{{\'U}}1
+             {ñ}{{\~n}}1 {Ñ}{{\~N}}1 {ü}{{\"u}}1 {Ü}{{\"U}}1
+             {→}{{$\to$}}1
+}
+
+% Definición de colores al estilo Arduino
+\definecolor{arduinoBlue}{RGB}{0, 151, 156}    % Color del IDE de Arduino
+\definecolor{arduinoGreen}{RGB}{94, 137, 33}   % Comentarios
+\definecolor{arduinoOrange}{RGB}{211, 84, 0}   % Funciones/Estructuras
+\definecolor{arduinoGray}{RGB}{127, 140, 141}  % Números de línea
+
+% Configuración para el código de Arduino
+\lstset{
+    language=C++, % Arduino se basa en C++
+    backgroundcolor=\color{gray!3},
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{arduinoBlue}\bfseries,
+    commentstyle=\color{arduinoGreen}\itshape,
+    stringstyle=\color{arduinoOrange},
+    numbers=left,
+    numberstyle=\tiny\color{arduinoGray},
+    stepnumber=1,
+    breaklines=true,
+    frame=single,
+    rulecolor=\color{arduinoBlue!40}, % Borde azul suave
+    showstringspaces=false,
+    % Añadimos palabras clave específicas de Arduino que no existen en C++ estándar
+    morekeywords={setup, loop, pinMode, digitalWrite, digitalRead, analogRead, analogWrite, Serial, begin, print, println, delay, HIGH, LOW, INPUT, OUTPUT}
+}
+
+
+\begin{document}
+
+\begin{titlepage}
+    \centering
+   
+    \includegraphics[width=0.35\textwidth]{logo ESPOCH.png}\\[1.5cm]
+    
+    % Nombre de la Institución
+    {\large\textbf{ESCUELA SUPERIOR POLITÉCNICA DE CHIMBORAZO}}\\[1cm]
+    
+    % Carrera
+    {\large\textbf{CARRERA:} FÍSICA}\\[1.5cm]
+    
+    % Información de la materia
+    {\large\textbf{Materia:}} Ondas y Óptica {\large }\\[1cm]
+    
+    {\large\textbf{Docente:}} Dra. Myrian Borja S. {\large . }\\[1cm]
+    
+    {\large\textbf{Tema:}} Estudio experimental y numérico de resonancia {\large }\\[1.5cm]
+    
+    % Integrantes
+    {\large\textbf{Integrantes}}\\[0.8cm]
+    {\large Camila Reyes}\\[0.4cm]
+    {\large Alejandro Moreta}\\[0.4cm]
+    {\large Marlon Loaiza}\\[2cm]
+    \vfill 
+    
+    {\large\textbf{Riobamba - Ecuador}}\\[0.5cm]
+    {\large 2026}
+\end{titlepage}
+\doublespacing
+
+%:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+%==================================================
+% RESUMEN
+%==================================================
+
+\begin{abstract}
+
+% Resumen general del proyecto:
+% - Problema
+% - Objetivo
+% - Metodología
+% - Resultados principales
+% - Conclusiones
+
+\end{abstract}
+
+
+\begin{multicols}{2}
+% =================================================
+\section{Introducción}
+
+El estudio de los sistemas oscilatorios es un tema central en la física, ya que permite comprender el comportamiento dinámico de una amplia variedad de sistemas naturales y tecnológicos. En particular, las vibraciones mecánicas y el fenómeno de resonancia son de gran interés, debido a que describen cómo un sistema responde ante excitaciones externas periódicas.
+
+La resonancia se presenta cuando la frecuencia de excitación coincide o se aproxima a una de las frecuencias naturales del sistema, produciendo un incremento significativo en la amplitud de las oscilaciones. Este fenómeno puede interpretarse como una transferencia eficiente de energía hacia el sistema, lo que resulta en una amplificación de su respuesta dinámica. En sistemas reales, la presencia de amortiguamiento evita que esta amplitud crezca indefinidamente, dando lugar a un pico finito en la curva de respuesta en frecuencia.
+
+Desde el punto de vista teórico, este comportamiento puede describirse mediante el modelo del oscilador armónico forzado y amortiguado, cuya solución depende de la frecuencia de excitación y de parámetros físicos como la masa, la constante elástica y el coeficiente de amortiguamiento. Sin embargo, para validar estos modelos, es necesario realizar estudios experimentales que permitan comparar los resultados teóricos con mediciones reales.
+
+En este trabajo se propone el análisis experimental del fenómeno de resonancia en una estructura vibratoria, excitada mediante una fuerza periódica generada por un motor con masa excéntrica. 
+La respuesta del sistema es medida utilizando un sensor de aceleración, lo que permite obtener datos en el dominio del tiempo que posteriormente son procesados y transformados al dominio de la frecuencia.
+
+El tratamiento de las señales se realiza mediante herramientas computacionales, empleando técnicas como la eliminación de la componente continua, el cálculo del valor RMS y la Transformada Rápida de Fourier (FFT). Estas metodologías permiten identificar las frecuencias dominantes del sistema, evaluar su contenido energético y determinar experimentalmente la frecuencia natural a partir de la condición de resonancia.
+
+Este tipo de análisis no solo es fundamental en física experimental, sino que también tiene aplicaciones prácticas en ingeniería, donde el control de vibraciones resulta clave para evitar fallas estructurales y optimizar el diseño de sistemas dinámicos.
+
+% =================================================
+\section{Objetivos}
+
+\subsection{Objetivo General}
+
+Estudiar experimentalmente el fenómeno de resonancia mecánica en una estructura vibratoria, analizando su respuesta en función de la frecuencia de excitación y comparando los resultados obtenidos con modelos teóricos y simulaciones numéricas del oscilador amortiguado y forzado.
+
+\subsection{Objetivos Específicos}
+\begin{itemize}
+
+\item Caracterizar la respuesta dinámica del sistema mediante la medición de aceleraciones generadas por diferentes frecuencias de excitación, utilizando un sensor MPU6050 y procesamiento de datos en Python.
+
+\item Determinar la frecuencia natural del sistema identificando el comportamiento resonante a partir de la relación entre la amplitud de vibración y la frecuencia aplicada, empleando análisis en el dominio del tiempo y la frecuencia (FFT).
+
+\item Procesar y analizar las señales experimentales aplicando técnicas como eliminación de la media, cálculo del valor RMS y transformada de Fourier, con el fin de interpretar el contenido energético y las frecuencias dominantes del sistema.
+
+\end{itemize}
+% =================================================
+\section{Marco Teórico}
+
+% ALEJO
+\subsection{Oscilaciones y Sistemas Dinámicos}
+
+\subsubsection{Frecuencia Natural}
+En el estudio de las vibraciones mecánicas, la frecuencia natural es aquella a la cual un sistema físico oscila libremente tras ser desplazado de su posición de equilibrio, asumiendo que no existen fuerzas externas que lo impulsen ni fricción que lo frene. Físicamente, esta característica no depende de qué tan fuerte se empuje el sistema inicialmente, sino de sus propiedades internas: su inercia (representada por la masa) y su tendencia a recuperar su forma (representada por la elasticidad) \cite{sears_zemansky}.
+
+Tomando como referencia el modelo básico de un objeto unido a un resorte, la frecuencia angular natural $\omega_0$ (expresada en radianes por segundo) se define mediante la ecuación:
+\begin{equation}
+    \omega_0 = \sqrt{\frac{k}{m}}
+\end{equation}
+donde $k$ es la constante de fuerza del resorte y $m$ es la masa del objeto. La frecuencia en hercios se obtiene de la relación $f_0 = \omega_0 / 2\pi$. Conocer esta frecuencia es el punto de partida fundamental para entender cómo el sistema reaccionará ante perturbaciones externas.
+
+\subsubsection{Oscilador Amortiguado}
+Un oscilador ideal se mantendría en movimiento perpetuo; sin embargo, en el mundo real, todo sistema en movimiento enfrenta fuerzas disipativas, como la fricción entre superficies o la resistencia del aire. Cuando un sistema pierde energía mecánica por estas causas, se le denomina \textit{oscilador amortiguado} \cite{sears_zemansky}. En este proceso, la energía del movimiento se transforma poco a poco en energía térmica, causando que la amplitud de las oscilaciones se reduzca con el paso del tiempo hasta que el objeto finalmente se detiene.
+
+Si consideramos que la fuerza de resistencia (amortiguamiento) es directamente proporcional a la velocidad del objeto, descrita como $F_a = -bv$ (siendo $b$ una constante que mide la intensidad del frenado), la segunda ley de Newton nos da la siguiente ecuación de movimiento:
+\begin{equation}
+    m\frac{d^2x}{dt^2} + b\frac{dx}{dt} + kx = 0
+\end{equation}
+Para un sistema donde el frenado es leve (subamortiguado), la masa sigue oscilando, pero su amplitud decrece siguiendo una curva exponencial:
+\begin{equation}
+    x(t) = A e^{-(b/2m)t} \cos(\omega' t + \phi)
+\end{equation}
+Aquí, $\omega'$ representa la frecuencia angular de este sistema amortiguado, la cual resulta ser ligeramente más baja que su frecuencia natural ideal $\omega_0$.
+
+\subsubsection{Oscilador Amortiguado y Forzado}
+Para lograr que un oscilador amortiguado no se detenga, es necesario compensar la energía que pierde por la fricción suministrándole energía desde el exterior. Cuando se aplica una fuerza periódica constante para mantener el movimiento, el sistema se convierte en un \textit{oscilador forzado} \cite{sears_zemansky}. Un ejemplo muy intuitivo es cuando empujamos a un niño en un columpio: debemos aplicar una fuerza a un ritmo específico para contrarrestar la fricción y mantener o aumentar el balanceo.
+
+Si la fuerza que empuja el sistema tiene un comportamiento rítmico descrito por $F(t) = F_{\text{max}} \cos(\omega_d t)$, donde $\omega_d$ es la frecuencia de esta fuerza externa impulsora, la ecuación diferencial que modela el sistema completo es:
+\begin{equation}
+    m\frac{d^2x}{dt^2} + b\frac{dx}{dt} + kx = F_{\text{max}} \cos(\omega_d t)
+\end{equation}
+Después de un tiempo inicial de ajuste, el sistema dejará de oscilar a su propia frecuencia y será "obligado" a moverse exactamente a la frecuencia impulsora $\omega_d$. Lo más interesante ocurre con la amplitud de este movimiento: si la frecuencia externa $\omega_d$ se acerca mucho a la frecuencia natural del sistema $\omega_0$, la transferencia de energía es extraordinariamente eficiente. Este fenómeno físico, donde una pequeña fuerza produce oscilaciones de gran amplitud al sincronizarse con el ritmo natural del sistema, se conoce como \textit{resonancia}.
+
+%MARLON
+
+\subsection{Resonancia}
+
+La resonancia constituye uno de los fenómenos fundamentales de la Física y aparece en sistemas capaces de almacenar e intercambiar energía entre distintas formas, como energía cinética y potencial. Desde un punto de vista general, la resonancia ocurre cuando una fuerza periódica externa excita un sistema con una frecuencia igual o cercana a una de sus frecuencias naturales de oscilación, produciendo una transferencia máxima de energía hacia el sistema \citep{Serway2018}.
+
+En un oscilador armónico simple formado por una masa $m$ y un resorte de constante elástica $k$, la ecuación de movimiento es
+
+\begin{equation}
+m\frac{d^{2}x}{dt^{2}}+kx=0
+\end{equation}
+
+cuya solución es
+
+\begin{equation}
+x(t)=A\cos(\omega_{0}t+\phi)
+\end{equation}
+
+donde la frecuencia angular natural es
+
+\begin{equation}
+\omega_{0}=\sqrt{\frac{k}{m}}
+\end{equation}
+
+Esta frecuencia representa una propiedad intrínseca del sistema y depende únicamente de su masa y de la rigidez del resorte \citep{Halliday2014}.
+
+Cuando se aplica una fuerza externa periódica
+
+\begin{equation}
+F(t)=F_{0}\cos(\omega t)
+\end{equation}
+
+la ecuación diferencial se convierte en
+
+\begin{equation}
+m\frac{d^{2}x}{dt^{2}}+kx=F_{0}\cos(\omega t)
+\end{equation}
+
+La amplitud estacionaria de la oscilación está dada por
+
+\begin{equation}
+A=\frac{F_{0}}{m(\omega_{0}^{2}-\omega^{2})}
+\end{equation}
+
+Puede observarse que cuando
+
+\begin{equation}
+\omega \approx \omega_{0}
+\end{equation}
+
+la amplitud crece considerablemente, indicando la presencia de resonancia \citep{Peralta2009}.
+
+Sin embargo, desde una perspectiva energética, la resonancia no debe entenderse únicamente como una condición matemática. Según \citet{Feynman2011}, la resonancia representa una situación en la que la fuerza externa realiza trabajo positivo durante cada ciclo de oscilación, suministrando energía en sincronía con el movimiento del sistema.
+
+La energía mecánica total del oscilador es
+
+\begin{equation}
+E=\frac{1}{2}mv^{2}+\frac{1}{2}kx^{2}
+\end{equation}
+
+Cuando existe resonancia, la energía transferida por la fuerza externa en cada período es máxima, generando un incremento continuo de la energía almacenada y, por tanto, de la amplitud.
+
+Otro aspecto importante es la diferencia de fase entre la fuerza excitadora y la respuesta del sistema. De acuerdo con \citet{French1971}, lejos de la resonancia la respuesta puede encontrarse adelantada o retrasada respecto a la excitación. En resonancia la diferencia de fase tiende a
+
+\begin{equation}
+\delta=\frac{\pi}{2}
+\end{equation}
+
+condición en la que la potencia media transferida alcanza su valor máximo.
+
+La resonancia es un fenómeno universal que aparece en sistemas mecánicos, acústicos, eléctricos, ópticos y cuánticos. En circuitos RLC, por ejemplo, la frecuencia resonante es
+
+\begin{equation}
+\omega_{0}=\frac{1}{\sqrt{LC}}
+\end{equation}
+
+mientras que en cavidades ópticas la resonancia determina los modos permitidos de propagación de la luz y constituye la base física del funcionamiento de los láseres.
+
+\subsubsection{Efecto en el Amortiguamiento}
+
+En los sistemas reales siempre existen mecanismos de disipación de energía. La fricción, la viscosidad, la resistencia del aire y las pérdidas internas de los materiales provocan que una parte de la energía mecánica se transforme en calor. Este fenómeno recibe el nombre de amortiguamiento.
+
+Si la fuerza disipativa es proporcional a la velocidad,
+
+\begin{equation}
+F_{d}=-b\frac{dx}{dt}
+\end{equation}
+
+la ecuación del movimiento para un oscilador forzado amortiguado es
+
+\begin{equation}
+m\frac{d^{2}x}{dt^{2}}+b\frac{dx}{dt}+kx=F_{0}\cos(\omega t)
+\end{equation}
+
+La amplitud estacionaria queda determinada por
+
+\begin{equation}
+A=
+\frac{F_{0}/m}
+{\sqrt{(\omega_{0}^{2}-\omega^{2})^{2}+\gamma^{2}\omega^{2}}}
+\end{equation}
+
+donde
+
+\begin{equation}
+\gamma=\frac{b}{m}
+\end{equation}
+
+Esta ecuación muestra que el amortiguamiento impide que la amplitud diverja cuando
+
+\begin{equation}
+\omega=\omega_{0}
+\end{equation}
+
+En consecuencia, la amplitud máxima permanece finita \citep{Peralta2009}.
+
+Desde el punto de vista físico, el amortiguamiento establece un equilibrio entre la energía que ingresa al sistema y la energía que se pierde por disipación. Cuando ambas cantidades se igualan, el sistema alcanza un estado estacionario y la amplitud deja de aumentar.
+
+Según \citet{Tipler2008}, el efecto del amortiguamiento puede describirse mediante el factor de calidad:
+
+\begin{equation}
+Q=\frac{\omega_{0}}{\gamma}
+\end{equation}
+
+El factor de calidad mide la capacidad de un sistema para almacenar energía oscilatoria.
+
+\begin{itemize}
+\item Valores altos de $Q$: resonancias agudas y selectivas.
+\item Valores bajos de $Q$: resonancias anchas y poco pronunciadas.
+\end{itemize}
+
+La anchura de la curva de resonancia está relacionada con la disipación energética. Cuanto menor es el amortiguamiento, más estrecha es la curva de resonancia y más selectiva resulta la respuesta del sistema.
+
+La potencia media absorbida por un oscilador forzado está dada por
+
+\begin{equation}
+P_{\mathrm{med}}=
+\frac{1}{2}F_{0}v_{0}\cos\delta
+\end{equation}
+
+donde $\delta$ es la diferencia de fase entre la fuerza aplicada y la velocidad del sistema. En resonancia esta potencia alcanza su máximo valor, explicando la gran eficiencia en la transferencia de energía \citep{French1971}.
+
+En ingeniería estructural, el amortiguamiento desempeña un papel esencial. Los disipadores sísmicos, amortiguadores viscosos y sistemas de aislamiento de base tienen como objetivo modificar la respuesta resonante de los edificios para evitar colapsos durante terremotos. De forma similar, los amortiguadores de vehículos reducen vibraciones no deseadas y mejoran la estabilidad mecánica.
+```
+
+
+%YOPE
+%====================================================================
+\subsection{Análisis Espectral}
+%====================================================================
+Realizar un análisis espectral de una señal significa examinar su contenido en términos de frecuencias (o longitudes de onda). Es, pues, una forma de organizar y leer las vibraciones. En otras palabras, cada vibración tiene una firma, una característica única, y mediante la descomposición es posible percibir claramente cada una de ellas. Ofrece así una serie de ventajas, como la identificación de patrones, la eliminación de ruidos no deseados y la optimización del rendimiento.
+
+La descripción espacial de un perfil o superficie, o su espectro, son dos maneras distintas de describir el mismo objeto. Se trata de representaciones duales. La representación habitual de un espectro es, en el caso de un perfil, un gráfico unidimensional que representa las amplitudes en función del índice de frecuencia. 
+
+\begin{figure}[H]
+    \centering
+  \includegraphics[width=0.5\textwidth]{image.png}
+\caption{Funcionamiento del análisis espectral}
+\end{figure}
+
+Al observar el espectro de una señal, es posible identificar ondas periódicas, ya que aparecen como picos en un espectro unidimensional
+Estos picos pueden ser oscilaciones debidas a vibraciones y en el caso de un perfil periódico real, que contiene irregularidades, encontramos la frecuencia principal y sus armónicos, pero también otros rayos más pequeños a su alrededor, que representan las irregularidades del perfil.
+
+
+%====================================================================
+\subsubsection{Transformada de Fourier y FFT}
+%====================================================================
+
+La FFT (Fast Fourier Transform) o Transformada Rápida de Fourier es un algoritmo matemático que permite descubrir qué frecuencias están presentes en una señal.
+La idea fundamental es que una señal compleja puede descomponerse en la suma de muchas ondas sinusoidales simples de distintas frecuencias.
+
+Fué Gauss en 1805 quién creó el algoritmo de "divide y vencerás", es decir, un algoritmo basado en calcular el vector $\hat{f}(0),\hat{f(1)...\hat{f}(N-1)}$ de forma recursiva dividiendo cada componente en dos sumas, aunque no se ocupó de precisar computacionalmente el número de operaciones requeridas por su algoritmo.
+
+Un siglo y medio después, en 1965, dos científicos norteamericanos, J.W.Cooley y J.W.Tukey, redescubrieron el algoritmo más eficiente hasta entonces conocido, al cual le dieron el nombre de transformada de Fourier rápida, que fue uno de los grandes descubrimientos de la última mitad del sigo XX. Este algoritmo fue la inspiración en muchas investigaciones de algebra, en el procesamiento de señales e imágenes y en el importante paso en la investigación de minimizar el
+número de operaciones numéricas.
+Los algoritmos FFT explotan esta estructura empleando el paradigma de "divide y vencerás",
+cuyos tres pasos principales son:
+1. Dividir el problema en varios subproblemas análogos de tamaños menores.
+2. Resolver de forma recursiva cada uno de los subproblemas con el mismo algoritmo.
+3. Obtener la solución del problema original combinando la solución de cada uno de los
+subproblemas.
+
+Se proponen dos técnicas, las cuáles reciben el nombre de: DIT FFT (decimación en tiempo) y DIF FFT (decimación en frecuencia).
+
+El primero  está basado en dividir la expresión.
+\begin{equation}
+    \widehat{f}_k = \sum_{n=0}^{N-1} f(n) \exp\left( \frac{-2i\pi kn}{N} \right)
+    \label{FFT}
+\end{equation}
+En dos sumas donde por un lado aparecen los términos pares y por otro lado los términos impares.
+\begin{equation}
+\begin{aligned}
+\widehat{f}(k) &= \sum_{n=0}^{\frac{N}{2}-1} f(2n)\overline{w_N}^{k(2n)} + \sum_{n=0}^{\frac{N}{2}-1} f(2n+1)\overline{w_N}^{k(2n+1)} \\
+&= \sum_{n=0}^{\frac{N}{2}-1} f(2n)\left(\overline{w_{\frac{N}{2}}}\right)^{kn} + \left( \sum_{n=0}^{\frac{N}{2}-1} f(2n+1)\left(\overline{w_{\frac{N}{2}}}\right)^{nk}\overline{w_N}^k \right)
+\end{aligned}
+\label{eq:DIT}
+\end{equation}
+
+teniendo en cuenta que: 
+\begin{equation}
+    \overline{w_{\frac{N}{2}}} = \left( e^{\dfrac{-2i\pi}{N}} \right)^2 = \overline{w_N}^2.
+\end{equation}
+Como las posiciones impares están desplazadas en el tiempo respecto a las pares, no se puede simplemente sumarlas directamente. El término $\overline{w_N}^k$ actúa como un <<corrector de fase>> geométrico. Sincroniza la rotación de la parte impar para que encaje perfectamente con la parte par al reconstruir la señal total $\widehat{f}(k)$.
+
+La barra horizontal arriba ($\overline{w_N}$) simplemente significa el  conjugado complejo, lo que en física equivale a cambiar el sentido del giro  (si el vector giraba a favor de las manecillas del reloj, ahora gira en contra).
+Teniendo en cuenta que cada una de las sumas de la expresión\eqref{eq:DIT}  se puede interpretar como una transformada de Fourier de un vector de tamaño $N/2$
+
+Esto nos permite introducir la siguiente notación:
+\begin{equation}
+    \widehat{f}(k) = \widehat{g}(k) + \overline{w_N}^k \widehat{h}(k)
+    \label{eq:fft_cooley_tukey}
+\end{equation}
+
+Llamando $g(k) = f(2n)$ y $h(n) = f(2n + 1)$, la primera suma de la expresión es la transformada de Fourier de $(g(0), g(1), \dots, g(\frac{N}{2} - 1))$ que vamos a denotar por $\widehat{g}(k)$ para $k = 0, 1, \dots, \frac{N}{2} - 1$. La segunda suma sin el factor $\overline{w_N}^k$ es la transformada de Fourier discreta de $(h(0), h(1), \dots, (h(\frac{N}{2}) - 1))$ que denotamos por $\widehat{h}(k)$ para $k = 0, \dots, \frac{N}{2} - 1$.
+
+
+Es usual representar las relaciones anteriores con el siguiente esquema llamado \textbf{operación mariposa de Cooley-Tukey}:
+
+\begin{center}
+\begin{tikzpicture}[
+    >=Stealth, % Tipo de flecha estilizada y profesional
+    dot/.style={circle, fill=black, inner sep=0pt, minimum size=5pt},
+    node distance=1.5cm and 3cm
+]
+
+    % --- Fila Superior ---
+    \node (g) {$\widehat{g}(k)$};
+    \node[dot, right=0.6cm of g] (n1) {};
+    \node[dot, right=3.5cm of n1] (n2) {};
+    \node[right=0.4cm of n2] (f1) {$\widehat{f}(k) $};
+
+    % --- Fila Inferior ---
+    \node[below=1.8cm of g] (h) {$\widehat{h}(k)$};
+    \node[dot, right=0.6cm of h] (n3) {};
+    \node[dot, right=3.5cm of n3] (n4) {};
+    \node[right=0.4cm of n4] (f2) {$\widehat{f}\left(k + \frac{N}{2}\right) $};
+
+    % --- Conexiones y Flechas ---
+    % Entradas
+    \draw[->] (g) -- (n1);
+    \draw[->] (h) -- (n3);
+
+    % Líneas horizontales con flechas intermedias
+    \draw (n1) -- (n2);
+    \draw[->] (n1) -- (2.5, 0); % Flecha en medio del camino superior
+    
+    \draw (n3) -- (n4);
+    \draw[->] (n3) -- (2.2, -1.75); % Flecha en medio del camino inferior
+
+    % Cruces de la mariposa con flechas intermedias
+    \draw (n1) -- (n4);
+    \draw[->] (n1) -- (1.95, -0.5); 
+
+    \draw (n3) -- (n2);
+    \draw[->] (n3) -- (2.5, -2.45);
+
+    % Salidas
+    \draw[->] (n2) -- (f1);
+    \draw[->] (n4) -- (f2);
+
+\end{tikzpicture}
+\end{center}
+
+
+En cada nivel de la recursión, dos valores de entrada de la etapa anterior (uno proveniente del subproblema par y otro del impar) se combinan de manera cruzada para producir dos valores de salida de la etapa actual de forma simultánea. 
+
+Esto optimiza radicalmente el cómputo: cada factor de giro $\overline{w_N}^k$ se calcula y multiplica una sola vez por rama, utilizándose tanto para la suma como para la resta. Es precisamente este entrelazado geométrico repetido a lo largo de las etapas lo que reduce la complejidad temporal de un pesado $\mathcal{O}(N^2)$ a un eficiente $\mathcal{O}(N \log_2 N)$.
+
+Concretamente, si el vector inicial es de tamaño $n = 2^m$, será necesario realizar los cálculos en $m$ etapas, que aparecen al ir descomponiendo el cálculo inicial primero en el cálculo de 2 transformadas de tamaño $2^{m-1}$, luego cada uno de los subproblemas dará lugar a otros 2, de tamaño $2^{m-2}$ (con lo que tendremos $4 = 2^2$ subproblemas de tamaño $2^{m-2}$), etc., hasta que en la fase $m$-ésima hemos llegado a $2^m$ subproblemas de tamaño $2^0 = 1$, que el algoritmo arranca resolviendo.
+
+
+En la segunda técnica, DIF FFT (decimación en frecuencia), en lugar de dividir los datos de entrada por sus índices pares/impares, divides la secuencia de entrada en dos mitades temporales contiguas (la primera mitad frente a la segunda mitad) para lograr que lo que quede separado en pares e impares sea el espectro de salida $\widehat{f}(r)$. 
+
+El punto de partida es la definición estándar de la DFT, pero dividiendo el sumatorio de tamaño $N$ en dos bloques de tamaño $N/2$:La primera mitad de las muestras: desde $n = 0$ hasta $\frac{N}{2} - 1$.La segunda mitad de las muestras: desde $n = \frac{N}{2}$ hasta $N - 1$.
+
+Para poder unificar los dos sumatorios, en el segundo bloque se hace un cambio de variable ($n \to n + \frac{N}{2}$), lo que desplaza sus límites para que también vayan de $0$ a $\frac{N}{2}-1$. Al hacerlo, el factor de giro se transforma mediante propiedades exponenciales:
+
+\begin{equation}
+\overline{w_N}^{r\left(n + \frac{N}{2}\right)} = \overline{w_N}^{rn} \cdot \overline{w_N}^{r\frac{N}{2}}
+\end{equation}
+
+permitiendonos llegar a la simplificación 
+ \begin{equation}
+\widehat{f}(r) = \sum_{n=0}^{\frac{N}{2}-1} \left( f(n) + f\left(n + \frac{N}{2}\right) \cdot \overline{w_N}^{r\frac{N}{2}} \right) \cdot \overline{w_N}^{rn}  
+ \end{equation}
+
+Si sustituimos $r$ por un índice par $2k$ (donde $k = 0, 1, \dots, \frac{N}{2}-1$), analizamos el factor interno conflictivo
+\begin{equation}
+\overline{w_N}^{r\frac{N}{2}} = \overline{w_N}^{2k\frac{N}{2}} = \overline{w_N}^{kN} = \left(e^{-j\frac{2\pi}{N}}\right)^{kN} = e^{-j2\pi k} = 1
+\end{equation}
+
+Como ese factor vale $1$, la ecuación se simplifica drásticamente. Las dos mitades de la señal original simplemente se suman directamente:
+\begin{equation}
+\widehat{f}(2k) = \sum_{n=0}^{\frac{N}{2}-1} \left( f(n) + f\left(n + \frac{N}{2}\right) \right) \cdot \overline{w_N}^{2kn}
+\end{equation}
+
+Usando la propiedad de los factores de giro $\overline{w_N}^{2kn} = \overline{w_{\frac{N}{2}}}^{kn}$, definimos una nueva secuencia temporal $g(n) = f(n) + f\left(n + \frac{N}{2}\right)$. El resultado $\widehat{g}(k)$ no es más que una DFT legítima de tamaño $N/2$.\\
+Si ahora evaluamos los componentes impares de la frecuencia sustituyendo $r = 2k + 1$, el factor interno cambia de signo debido a la media periodicidad. Al valer $-1$, las dos mitades de la señal en el sumatorio ahora se restan. Además, el factor de giro externo se descompone en $\overline{w_N}^{(2k+1)n} = \overline{w_N}^{2kn} \cdot \overline{w_N}^n$. Al agruparlo todo, obtenemos:
+\begin{equation}
+\widehat{f}(2k+1) = \sum_{n=0}^{\frac{N}{2}-1} \left( f(n) - f\left(n + \frac{N}{2}\right) \right) \overline{w_N}^n \cdot \overline{w_{\frac{N}{2}}}^{kn}
+\end{equation}
+
+Aquí es donde se define la segunda secuencia auxiliar $h(n) = \left( f(n) - f\left(n + \frac{N}{2}\right) \right) \overline{w_N}^n$. 
+
+Al calcularle su DFT de tamaño $N/2$ obtenemos la mitad impar del espectro, $\widehat{h}(k)$.
+
+Es usual representar las relaciones anteriores con el siguiente esquema, llamado \textbf{operación mariposa de Gentleman-Sande}:
+
+\begin{center}
+\begin{tikzpicture}[
+    >=Stealth, % Flechas de estilo técnico y limpio
+    dot/.style={circle, fill=black, inner sep=0pt, minimum size=5pt},
+    node distance=1.5cm and 3.5cm
+]
+
+    % --- Fila Superior ---
+    \node (f1_in) {$f(n)$};
+    \node[dot, right=0.6cm of f1_in] (n1) {};
+    \node[dot, right=3.5cm of n1] (n2) {};
+    \node[right=0.4cm of n2] (g_out) {$g(n) $};
+
+    % --- Fila Inferior ---
+    \node[below=2.2cm of f1_in] (f2_in) {$f\left(n + \frac{N}{2}\right)$};
+    \node[dot, right=0.6cm of f2_in] (n3) {};
+    \node[dot, right=3.5cm of n3] (n4) {};
+    \node[right=0.4cm of n4] (h_out) {$h(n) $};
+
+    % --- Conexiones y Flechas ---
+    % Entradas principales
+    \draw[->] (f1_in) -- (n1);
+    \draw[->] (f2_in) -- (n3);
+
+    % Caminos horizontales con puntas de flecha intermedias centraditas
+    \draw (n1) -- (n2);
+    \draw[->] (n1) -- (2.5, 0); 
+    
+    \draw (n3) -- (n4);
+    \draw[->] (n3) -- (2.5, -2.85); 
+
+    % Cruces internos (Mariposa) con sus respectivas flechas de flujo
+    \draw (n1) -- (n4);
+    \draw[->] (n1) -- (2, -0.6); 
+
+    \draw (n3) -- (n2);
+    \draw[->] (n3) -- (2.5, -2.1);
+
+    % Salidas hacia las expresiones resultantes
+    \draw[->] (n2) -- (g_out);
+    \draw[->] (n4) -- (h_out);
+
+\end{tikzpicture}
+\end{center}
+Mientras la transformada original demanda alto poder computacional, la versión rápida (FFT) simplifica el cálculo, permitiendo que sensores y plataformas digitales procesen datos de vibración en cortos espacios de tiempo.  Asimismo, la aplicación computacional cuando las entradas son números reales el algoritmo resulta incluso más eficiente. Luego, esa eficiencia es lo que vuelve posible el análisis continuo de activos en ambientes industriales, viabilizando el mantenimiento predictivo con base en datos confiables.
+
+El verdadero valor de la técnica está en interpretar el espectro de frecuencia.
+El gráfico FFT revela cómo se distribuye la energía vibracional entre diferentes frecuencias, lo que permite identificar patrones de fallas mecánicas a partir de picos, armónicos y ruidos. Y está compuesto por dos ejes principales:\\
+Frecuencia (Hz): muestra cuántas veces se repite el movimiento vibratorio por segundo. Cada componente de la máquina vibra en una frecuencia característica.\\
+Amplitud: indica la intensidad de la vibración en cada frecuencia; puede mostrarse en aceleración (g, m/s²), velocidad (mm/s) o desplazamiento (µm). 
+
+%=======================================================================
+\subsubsection{Aplicaciones en Ingeniería Estructural}
+%=======================================================================
+
+La Transformada de Fourier desempeña un papel fundamental tanto en el diseño antisísmico como en el monitoreo predictivo de estructuras, al proporcionar
+una comprensión profunda de la respuesta vibratoria, entre algunos de los antecedentes contamos con; Alsop y Nowroozi que utilizaron el método FFT para analizar un terremoto ocurrido en 1965 en Great Mouse Island.
+
+La comprensión del espectro de las ondas sísmicas es esencial en la ingeniería sísmica y la predicción de terremotos. La Transformada de Fourier permite obtener una comprensión integral de la naturaleza del evento sísmico y la ley de propagación de las ondas sísmicas.
+
+Incluso se ha propuesto una arquitectura innovadora llamada FFT-DCNN
+(Transformada Rápida de Fourier - Red Neuronal Convolucional Profunda) para la detección de daños estructurales, utiliza la FFT para transformar los datos de vibración sin procesar en información de frecuencia, que luego se introduce en una Red Neuronal Convolucional Profunda (DCNN) para extraer automáticamente las características de daño e identificar las condiciones estructurales. Estos sistemas pueden proporcionar una comprensión más precisa y predictiva el comportamiento estructural, mejorando las evaluaciones de seguridad y las estrategias de mantenimiento proactivo.
+
+
+%=======================================================================
+\subsubsection{Identificación experimental de frecuencias naturales y resonancia}
+%=======================================================================
+Existen varios métodos para distinguir las frecuencias forzadas de las frecuencias naturales. Uno de los más utilizados es la detección de resonancia mediante barrido de frecuencia, en la cual el sistema se somete a excitaciones armónicas sucesivas con frecuencias conocidas y controladas. Este procedimiento permite observar cómo varía la respuesta dinámica del sistema e identificar las frecuencias en las que se producen máximos de amplitud.
+
+El objetivo práctico es mantener la frecuencia de operación suficientemente alejada de la frecuencia natural, por ejemplo en un margen mínimo aproximado de $\pm 20\%$, para evitar condiciones de resonancia. Aunque las frecuencias naturales no pueden eliminarse por completo, sus efectos pueden reducirse o desplazarse mediante diferentes estrategias, tales como:
+
+\begin{itemize}
+    \item Reducir o eliminar la fuerza de excitación mediante equilibrado de precisión, alineación de ejes y correas, o sustitución de aisladores desgastados o rotos.
+    \item Modificar la masa o la rigidez de la estructura para desplazar sus frecuencias naturales.
+    \item Cambiar el régimen de giro o la frecuencia de operación del equipo.
+\end{itemize}
+
+Una vez finalizado el barrido, los resultados permiten analizar la respuesta del sistema en el rango de frecuencias evaluado e identificar la transmisibilidad máxima, definida como la relación entre la aceleración de salida y la aceleración de entrada.
+
+En este método, la entrada del sistema puede modelarse como una fuerza sinusoidal de la forma:
+\begin{equation}
+F(t) = F_0 \sin(\omega t)
+\end{equation}
+donde $\omega = 2\pi f$ es la frecuencia angular de excitación.
+
+La respuesta en aceleración del sistema depende de la frecuencia de excitación. Para cada frecuencia aplicada $f_i$, se mide la amplitud de la respuesta $A(f_i)$, típicamente usando:
+
+\begin{itemize}
+    \item El valor RMS de la señal,
+    \item la amplitud pico,
+    \item o el contenido espectral mediante FFT.
+\end{itemize}
+
+Esto permite construir una relación experimental:
+\begin{equation}
+A = A(f)
+\end{equation}
+Cuando la frecuencia de excitación se aproxima a una frecuencia natural  del sistema $f_n$(fenómeno de resonancia), ocurre un fenómeno de amplificación dinámica, donde la energía transferida al sistema es máxima. 
+
+Esto se observa experimentalmente como un pico en la curva de respuesta en frecuencia:
+\begin{equation}
+f_n \approx \arg\max A(f)
+\end{equation}
+
+En sistemas con amortiguamiento, este pico no es infinito, sino finito y ensanchado, lo cual permite también inferir el nivel de disipación de energía del sistema.
+
+Para construir experimentalmente una curva de resonancia es necesario definir una magnitud que represente la intensidad de la vibración. Entre las medidas más utilizadas se encuentran el valor eficaz (RMS) y la amplitud espectral máxima.
+El valor cuadrático medio o \textit{Root Mean Square} (RMS) proporciona una medida de la energía promedio contenida en la señal de vibración. Para una señal discreta de aceleración $a_i$, el valor RMS se define como:
+
+\begin{equation}
+a_{\mathrm{RMS}} = \sqrt{\frac{1}{N}\sum_{i=1}^{N} a_i^2}
+\label{RMS}
+\end{equation}
+
+donde:
+\begin{itemize}
+    \item $a_i$ es la aceleración medida en la muestra $i$,
+    \item $N$ es el número total de muestras.
+\end{itemize}
+
+El valor RMS es ampliamente utilizado en el análisis de vibraciones debido a que representa adecuadamente el nivel energético global de la señal y es menos sensible a fluctuaciones instantáneas.
+
+En el ámbito de la ingeniería eléctrica y mecánica, este tipo de análisis se emplea en la evaluación de equipos y estructuras sometidas a excitaciones periódicas. Por ejemplo, en transformadores de potencia, las fuerzas electromagnéticas internas pueden generar vibraciones mecánicas en el núcleo y los bobinados. El análisis de estas vibraciones permite detectar posibles condiciones de resonancia estructural que podrían comprometer la integridad del sistema.
+
+De manera general, la identificación de resonancias mediante barrido de frecuencia constituye una herramienta fundamental en el diseño, diagnóstico y mantenimiento predictivo de sistemas dinámicos, ya que permite anticipar condiciones de operación donde la amplificación de vibraciones puede ser crítica.
+
+
+
+
+% =================================================
+\section{Metodología Experimental}
+
+\subsection{Diseño experimental}
+
+El objetivo del presente trabajo es estudiar experimentalmente el fenómeno de resonancia mecánica en una estructura vibratoria y comparar los resultados obtenidos con las predicciones teóricas y numéricas del modelo del oscilador amortiguado y forzado.
+
+La estructura experimental está formada por una plataforma móvil sostenida por cuatro resortes helicoidales ubicados en sus esquinas. Sobre esta plataforma se construyó una torre de madera utilizando palitos de helado y se colocó una masa concentrada en su parte superior mediante tuercas y arandelas. Esta configuración representa un sistema estructural simplificado capaz de experimentar oscilaciones verticales.
+
+La excitación periódica del sistema se genera mediante un motor de corriente continua equipado con una masa excéntrica. Al girar el motor, la masa excéntrica produce una fuerza periódica que induce vibraciones en la estructura. La velocidad de rotación del motor se controla mediante señales PWM enviadas desde un Arduino Uno a través de un controlador L298N.
+
+La respuesta dinámica de la estructura es medida utilizando un sensor MPU6050 instalado en la parte superior de la torre. Este sensor registra las aceleraciones producidas durante las vibraciones y transmite la información al computador para su posterior análisis.
+
+\subsection{Materiales y equipos}
+
+Para la realización del experimento se utilizaron los siguientes elementos:
+
+\begin{itemize}
+    \item Arduino Uno.
+    \item Sensor MPU6050.
+    \item Driver L298N.
+    \item Motor de corriente continua con masa excéntrica.
+    \item Fuente de alimentación de 6--9 V.
+    \item Plataforma vibratoria construida en triplex.
+    \item Cuatro resortes helicoidales.
+    \item Torre elaborada con palitos de helado.
+    \item Masa concentrada formada por tuercas y arandelas.
+    \item Computadora para adquisición y procesamiento de datos.
+    \item Python para simulación numérica, análisis de datos y procesamiento de señales.
+\end{itemize}
+
+\subsubsection{Arduino Uno}
+
+El Arduino Uno actúa como unidad principal de control y adquisición de datos del sistema. Esta placa de desarrollo está basada en el microcontrolador ATmega328P, el cual opera a una frecuencia de reloj de 16 MHz y dispone de entradas y salidas digitales, entradas analógicas y diversos protocolos de comunicación. Gracias a estas características, el Arduino permite controlar la velocidad del motor mediante señales PWM, adquirir datos provenientes del sensor y enviarlos al computador para su procesamiento y almacenamiento.
+
+\subsubsection{Sensor MPU6050}
+
+El MPU6050 es un sensor MEMS (Micro-Electro-Mechanical System) que integra un acelerómetro triaxial y un giroscopio triaxial en un único dispositivo. Este sensor permite medir aceleraciones lineales y velocidades angulares en los tres ejes espaciales, proporcionando información precisa sobre el comportamiento dinámico de la estructura. La comunicación con el Arduino se realiza mediante el protocolo I\textsuperscript{2}C, lo que permite una adquisición de datos eficiente y en tiempo real.
+
+\subsubsection{Driver L298N}
+
+El L298N es un controlador de potencia basado en un puente H doble, ampliamente utilizado para el control de motores de corriente continua. Su función principal en este proyecto fue actuar como interfaz entre el Arduino Uno y el motor DC con masa excéntrica. El módulo recibe las señales PWM generadas por el Arduino y regula la potencia suministrada al motor, permitiendo controlar su velocidad de rotación. De esta manera fue posible modificar la frecuencia de excitación aplicada a la estructura y realizar el análisis experimental de resonancia en diferentes condiciones de operación.
+
+\subsection{Montaje experimental}
+
+El sensor MPU6050 fue conectado al Arduino Uno mediante comunicación I\textsuperscript{2}C utilizando los pines SDA y SCL. El motor de corriente continua fue controlado mediante el módulo L298N, permitiendo regular su velocidad mediante señales PWM generadas por el Arduino.
+
+La fuente de alimentación proporcionó la energía necesaria para el funcionamiento del motor, mientras que el Arduino se encargó de controlar el sistema y adquirir los datos experimentales. La información registrada por el sensor fue enviada al computador mediante comunicación serial USB.
+
+La masa excéntrica acoplada al motor generó una fuerza periódica cuya frecuencia dependió directamente de la velocidad de rotación del motor. Esta fuerza actuó como excitación externa del sistema vibratorio.
+
+\subsection{Procedimiento experimental}
+
+Inicialmente se verificó el correcto funcionamiento de todos los componentes electrónicos y mecánicos del sistema, incluyendo el Arduino Uno, el sensor MPU6050, el controlador L298N y el motor de corriente continua con masa excéntrica.
+
+Posteriormente se puso en funcionamiento el motor de corriente continua y se controló su velocidad mediante señales PWM generadas por el Arduino Uno. Se seleccionaron nueve frecuencias de excitación diferentes, distribuidas de manera que permitieran estudiar el comportamiento de la estructura antes, durante y después de la región de resonancia.
+
+Para cada frecuencia seleccionada se registró la aceleración de la estructura durante un intervalo de 20 segundos. Durante cada medición se mantuvieron constantes la masa del sistema, la configuración de los resortes, la posición del sensor y las condiciones generales del experimento.
+
+En total se realizaron nueve mediciones independientes correspondientes a nueve frecuencias de excitación distintas, obteniéndose un tiempo total de adquisición de datos de 180 segundos.
+
+Los datos registrados por el sensor MPU6050 fueron almacenados en archivos digitales para su posterior procesamiento y análisis.
+
+\subsection{Adquisición de datos}
+
+Las mediciones se realizaron utilizando el sensor MPU6050, un dispositivo MEMS que incorpora un acelerómetro y un giroscopio de tres ejes. En este trabajo se empleó principalmente el acelerómetro para registrar las vibraciones producidas en la estructura.
+
+El sensor proporciona datos digitales de aceleración en los ejes $x$, $y$ y $z$, permitiendo caracterizar la respuesta dinámica del sistema frente a diferentes frecuencias de excitación.
+
+La adquisición y almacenamiento de los datos fueron gestionados mediante un Arduino Uno. El microcontrolador recibió la información enviada por el MPU6050 a través del protocolo I\textsuperscript{2}C y posteriormente la transmitió al computador mediante comunicación serial USB para su procesamiento y análisis.
+
+Los datos almacenados para cada ensayo incluyeron:
+
+\begin{itemize}
+    \item Tiempo.
+    \item Aceleración en el eje $x$.
+    \item Aceleración en el eje $y$.
+    \item Aceleración en el eje $z$.
+\end{itemize}
+
+Cada conjunto de datos fue guardado en formato CSV para facilitar su procesamiento mediante Python.
+% =================================================
+\section{Modelo Matemático y Simulación}
+
+\subsection{Parámetros del Modelo}
+
+Para la validación analítica del comportamiento dinámico de la estructura, se determinaron los parámetros físicos fundamentales del sistema mecánico. Estos valores modelan de forma equivalente el prototipo a escala continuo (compuesto por la torre de madera, la plataforma de soporte, el motor de corriente continua, las tuercas de la masa concentrada y el transductor inercial) como un sistema concentrado de un solo grado de libertad soportado por un arreglo elástico de cuatro resortes helicoidales en paralelo.
+
+En la Tabla~\ref{tab:parametros_teoricos} se consolidan las magnitudes cuantitativas adoptadas para las constantes globales del sistema físico.
+
+\begin{table}[H]
+\centering
+\caption{Parámetros físicos del modelo teórico del oscilador armónico.}
+\label{tab:parametros_teoricos}
+\begin{tabular}{lccc}
+\hline
+\textbf{Parámetro} & \textbf{Símbolo} & \textbf{Valor} & \textbf{Unidades} \\ \hline
+Masa total del sistema & $m$ & 0.368 & kg \\
+Rigidez elástica total & $k_{\text{total}}$ & 400.0 & N/m \\
+Rigidez de resorte individual & $k_i$ & 100.0 & N/m \\
+Razón de amortiguamiento & $\zeta$ & 0.05 & -- \\
+Amplitud de la fuerza externa & $F_0$ & 0.066 & N \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Simulación y Cálculos Teóricos}
+
+A partir de los parámetros establecidos, la ecuación diferencial ordinaria de segundo orden con coeficientes constantes que gobierna el movimiento del oscilador amortiguado y forzado unidimensional se define formalmente como:
+
+\begin{equation}
+m\frac{d^2x}{dt^2} + b\frac{dx}{dt} + k_{\text{total}}x = F_0\cos(\omega_d t)
+\end{equation}
+
+El coeficiente de amortiguamiento viscoso absoluto ($b$), necesario para describir cuantitativamente las pérdidas energéticas por fricción interna y resistencia aerodinámica, se deriva a partir de la relación dimensional con la razón de amortiguamiento adimensional ($\zeta$):
+
+\begin{equation}
+b = 2\zeta\sqrt{k_{\text{total}} \cdot m}
+\end{equation}
+
+Sustituyendo los valores numéricos correspondientes del montaje:
+
+\begin{equation}
+b = 2(0.05)\sqrt{400 \text{ N/m} \cdot 0.368 \text{ kg}} \approx 1.213 \text{ N}\cdot\text{s/m}
+\end{equation}
+
+Con este coeficiente, la expresión diferencial gobernante del prototipo queda completamente parametrizada:
+
+\begin{equation}
+0.368\frac{d^2x}{dt^2} + 1.213\frac{dx}{dt} + 400x = 0.066\cos(\omega_d t)
+\end{equation}
+
+La frecuencia angular natural del sistema ($\omega_0$) y su correspondiente frecuencia lineal fundamental ($f_0$) se calculan directamente a partir de las propiedades inerciales y elásticas intrínsecas de la estructura:
+
+\begin{equation}
+\omega_0 = \sqrt{\frac{k_{\text{total}}}{m}} = \sqrt{\frac{400 \text{ N/m}}{0.368 \text{ kg}}} \approx 32.973 \text{ rad/s}
+\end{equation}
+
+\begin{equation}
+f_0 = \frac{\omega_0}{2\pi} = \frac{32.973 \text{ rad/s}}{2\pi} \approx 5.248 \text{ Hz} \approx 5.25 \text{ Hz}
+\end{equation}
+
+Bajo la condición de acoplamiento dinámico o resonancia por frecuencia natural ($\omega_d = \omega_0$), la solución particular en estado estacionario para la amplitud máxima del desplazamiento ($X_{\text{max}}$) se simplifica y queda limitada exclusivamente por la capacidad de disipación del sistema:
+
+\begin{equation}
+X_{\text{max}} = \frac{F_0}{b \cdot \omega_0} = \frac{0.066 \text{ N}}{1.213 \text{ N}\cdot\text{s/m} \cdot 32.973 \text{ rad/s}} \approx 0.00165 \text{ m} = 1.65 \text{ mm}
+\end{equation}
+
+Finalmente, con el propósito de efectuar una comparación directa y rigurosa con las lecturas cinemáticas de aceleración entregadas por el transductor digital MPU6050, se evalúa la amplitud máxima de la respuesta en aceleración ($a_{\text{max}}$) mediante la relación armónica estacionaria:
+
+\begin{equation}
+a_{\text{max}} = X_{\text{max}} \cdot \omega_0^2 = \frac{F_0 \cdot \omega_0}{b} = \frac{0.066 \text{ N} \cdot 32.973 \text{ rad/s}}{1.213 \text{ N}\cdot\text{s/m}} \approx 1.794 \text{ m/s}^2
+\end{equation}
+
+Este valor analítico ($1.794 \text{ m/s}^2$) demuestra una concordancia matemática excelente con la amplitud espectral pico obtenida mediante la transformada rápida de Fourier en el ensayo experimental crítico ($1.7953 \text{ m/s}^2$), validando la capacidad predictiva del modelo lineal formulado para representar el régimen estacionario de la maqueta.
+
+\subsection{Simulación Numérica en Python}
+
+Con el propósito de validar las aproximaciones analíticas y evaluar la evolución temporal completa del sistema dinámico, se desarrolló un algoritmo de simulación numérica en el lenguaje Python utilizando un enfoque de integración por espacios de estados. 
+
+La implementación computacional cumple con las siguientes funciones metodológicas dentro del estudio:
+\begin{itemize}
+    \item \textbf{Resolución de la Ecuación Diferencial:} Transforma la ecuación diferencial ordinaria de segundo orden en un sistema equivalente de dos ecuaciones diferenciales de primer orden, resolviéndolo mediante el integrador adaptativo de Runge-Kutta de orden condicional 4 y 5 (\texttt{solve\_ivp}). Esto permite capturar con precisión tanto el comportamiento transitorio inicial como el régimen permanente estable.
+    \item \textbf{Aislamiento del Régimen Estacionario:} Almacena el vector completo de aceleraciones mecánicas y segmenta los datos a partir del segundo 5 ($t \geq 5.0\text{ s}$). Este procedimiento emula las condiciones de laboratorio al eliminar las perturbaciones inerciales transitorias provocadas por la aceleración inicial del motor, asegurando un análisis espectral limpio.
+    \item \textbf{Procesamiento Digital de Señales (FFT):} Aplica el algoritmo de la Transformada Rápida de Fourier (\texttt{fft}) sobre el módulo de aceleración purificado, normalizando las amplitudes reales y deduciendo de forma exacta el eje de frecuencias físicas mediante la tasa de muestreo del modelo (\texttt{fftfreq}).
+    \item \textbf{Visualización Gráfica de Alta Definición:} Configura un panel bidimensional parametrizado que superpone de forma clara las escalas cinemáticas y espectrales. Además, exporta automáticamente los resultados en un formato de alta resolución de 300 DPI (\texttt{savefig}) óptimo para su incorporación directa en la documentación técnica.
+\end{itemize}
+
+A continuación, se presenta el código fuente limpio y optimizado para su ejecución en el entorno de procesamiento:
+
+\begin{lstlisting}[language=Python, caption={Algoritmo de integración numérica y análisis espectral FFT en Python.}, label={code:simulacion_oscilador}]
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.integrate import solve_ivp
+from scipy.fft import fft, fftfreq
+
+m = 0.368          
+k = 400.0          
+zeta = 0.05        
+F0 = 0.066         
+f_excitacion = 5.25  
+
+omega_d = 2 * np.pi * f_excitacion
+b = 2 * zeta * np.sqrt(k * m)
+
+def ecuacion_movimiento(t, y):
+    x, v = y
+    return [v, (F0 * np.cos(omega_d * t) - b * v - k * x) / m]
+
+t_span = (0, 20)
+t_eval = np.linspace(0, 20, 2500)  
+
+sol = solve_ivp(ecuacion_movimiento, t_span, [0.0, 0.0], t_eval=t_eval)
+
+a_sim = (F0 * np.cos(omega_d * sol.t) - b * sol.y[1] - k * sol.y[0]) / m
+
+idx_estacionario = sol.t >= 5.0
+t_est = sol.t[idx_estacionario]
+a_est = a_sim[idx_estacionario]
+
+N = len(a_est)
+dt = np.mean(np.diff(t_est))
+yf = fft(a_est)
+xf = fftfreq(N, dt)
+
+idx_pos = xf > 0
+frecuencias_fft = xf[idx_pos]
+amplitudes_fft = (2 / N) * np.abs(yf[idx_pos])
+
+plt.rcParams.update({
+    'font.size': 13,
+    'axes.labelsize': 15,
+    'axes.titlesize': 16,
+    'xtick.labelsize': 13,
+    'ytick.labelsize': 13,
+    'legend.fontsize': 13,
+    'figure.titlesize': 19
+})
+
+fig, (ax1, ax2) = plt.subplots(nrows=2, ncols=1, figsize=(12, 10))
+fig.suptitle('Análisis Numérico del Oscilador Armónico Forzado en Resonancia', weight='bold', y=0.96)
+
+ax1.plot(sol.t, a_sim, color='#1f3b4d', linewidth=2.5, label='Aceleración teórica $a(t)$')
+ax1.axvspan(0, 5, color='#e6e6e6', alpha=0.5, label='Régimen Transitorio (Ajuste)')
+ax1.set_title('Respuesta Cinemática en el Dominio del Tiempo ($f = 5.25$ Hz)')
+ax1.set_xlabel('Tiempo (s)', weight='bold')
+ax1.set_ylabel('Aceleración (m/s²)', weight='bold')
+ax1.set_xlim(0, 20)
+ax1.set_ylim(np.min(a_sim) * 1.3, np.max(a_sim) * 1.3)
+ax1.grid(True, linestyle='--', linewidth=0.8, alpha=0.7)
+ax1.legend(loc='upper right', frameon=True, shadow=True)
+
+ax2.plot(frecuencias_fft, amplitudes_fft, color='#5c4681', linewidth=2.5, label='Espectro FFT')
+ax2.axvline(f_excitacion, color='#c05a4d', linestyle=':', linewidth=3, 
+           label=f'Frecuencia del Motor: {f_excitacion:.2f} Hz')
+ax2.set_title('Contenido Espectral en el Dominio de la Frecuencia')
+ax2.set_xlabel('Frecuencia (Hz)', weight='bold')
+ax2.set_ylabel('Amplitud Espectral', weight='bold')
+ax2.set_xlim(0, 12)  
+ax2.set_ylim(0, np.max(amplitudes_fft) * 1.2)
+ax2.grid(True, linestyle='--', linewidth=0.8, alpha=0.7)
+ax2.legend(loc='upper right', frameon=True, shadow=True)
+
+plt.tight_layout(rect=[0, 0.03, 1, 0.93])
+
+plt.savefig('simulacion_resonancia_hd.png', dpi=300, bbox_inches='tight')
+plt.show()
+\end{lstlisting}
+\section{Procesamiento y Análisis de Datos}
+%==================================================
+Una vez obtenidos los datos, se tomaron en cuenta algunos aspectos para realizar el tratamiento de las señales.
+
+En primera instancia, se consideraron las unidades de los datos obtenidos. En cuanto al tiempo, Arduino realizó sus mediciones en milisegundos; para llevar a cabo un análisis más general, estas unidades se transformaron a segundos.
+
+Por otro lado, los datos obtenidos por el módulo MPU también requirieron una conversión de unidades, puesto que este dispositivo, además de funcionar como acelerómetro, incorpora un giroscopio y entrega sus mediciones en múltiplos de la aceleración de la gravedad terrestre.
+
+Por la misma razón, al observar las gráficas de aceleración en cada eje, las aceleraciones registradas en el eje (z) se presentaron considerablemente mayores, a pesar de que el sistema de referencia del acelerómetro fue establecido para vibrar en el plano (xy). Para corregir este efecto, se calculó la aceleración total, con el fin de eliminar la dependencia del sistema de referencia al trabajar únicamente con el módulo del vector aceleración, tal que:
+
+\begin{equation}
+a = \sqrt{a_x^2 + a_y^2 + a_z^2}
+\end{equation}
+
+Posteriormente, se eliminó nuevamente la componente continua residual.
+
+Ahora bien, en cuanto al filtrado y limpieza de los datos, el acelerómetro proporcionó una cantidad de señales mezcladas, entre ellas: la gravedad terrestre, la inclinación del sensor, ruido electrónico, la vibración real del sistema y los offsets del sensor, siendo este último el principal problema, puesto que el módulo suele presentar un valor constante añadido.
+
+Para corregir este efecto, se eliminó la media de la señal, proceso que consistió en calcular el valor medio y restarlo a toda la señal para conservar únicamente sus variaciones:
+
+\begin{equation}
+a_{\mathrm{clean}}(t)=a(t)-\overline{a}(t)
+\end{equation}
+
+Este procedimiento se aplicó también a cada uno de los ejes, puesto que una inclinación del sensor puede generar componentes residuales de la gravedad.
+
+Teniendo en cuenta estos aspectos, se inició el análisis de las señales. En este trabajo se utilizó la Transformada Rápida de Fourier (FFT) como herramienta computacional para calcular la Transformada Discreta de Fourier (DFT), dado que las señales experimentales son discretas en el tiempo.
+
+\begin{equation}
+X(f)=\left|\mathrm{FFT}\left(a_{\mathrm{clean}}(t)\right)\right|
+\end{equation}
+
+A partir de esta transformación se interpretaron las frecuencias dominantes del movimiento, las componentes aleatorias asociadas al ruido y los armónicos generados por el motor.
+
+Para su implementación en Python se utilizó la biblioteca \texttt{SciPy}, la cual dispone de las funciones \texttt{fft()} y \texttt{fftfreq()}. La función \texttt{fft()} recibe una señal en el dominio del tiempo y devuelve su representación en el dominio de la frecuencia. El resultado corresponde a un vector de números complejos, por lo que se implementó de la siguiente manera:
+
+\begin{lstlisting}
+yf = np.abs(yf)
+\end{lstlisting}
+
+con el fin de obtener únicamente la amplitud.
+
+Por otro lado, \texttt{fftfreq()} crea el eje de frecuencias asociado a la FFT, indicando a qué amplitud corresponde cada componente. Su implementación en Python se realizó considerando un número (N) de muestras y un tiempo de muestreo (dt), por lo que la frecuencia de muestreo estuvo dada por:
+\begin{equation}
+f_s=\frac{1}{dt}
+\end{equation}
+
+Donde únicamente se conservaron las frecuencias positivas, puesto que la aceleración es una señal real y, por tanto, el espectro presenta simetría.
+
+Una vez transformados los datos al dominio de la frecuencia, se realizó el análisis espectral, interpretando los picos más significativos, las frecuencias dominantes y el contenido energético de la señal.
+
+Finalmente, se efectuó un barrido completo considerando la frecuencia establecida en el motor y la amplitud de las oscilaciones de la maqueta. En total, se establecieron nueve frecuencias de excitación, por lo que cada ensayo mostró una frecuencia dominante en la FFT.
+
+De esta manera, se obtuvo una amplitud en función de la frecuencia y, considerando que cuando la frecuencia del motor se aproxima a la frecuencia natural de la estructura la amplitud aumenta considerablemente, fue posible observar el fenómeno de resonancia e identificar la frecuencia natural del sistema.
+
+Otra forma de determinar esta amplitud consistió en calcular el valor RMS, definido en la ecuación \eqref{RMS}.
+
+Posteriormente, estas magnitudes se representaron en función de la frecuencia de excitación para construir la curva de resonancia del sistema, donde el máximo de dicha curva se asoció con la frecuencia de resonancia, la cual constituye una estimación experimental de la frecuencia natural.
+
+En sistemas ligeramente amortiguados, la frecuencia de resonancia constituye una aproximación adecuada de la frecuencia natural del sistema:
+
+\begin{equation}
+f_r \approx f_n,
+\end{equation}
+
+donde $(f_n)$ es la frecuencia natural.
+
+Sin embargo, en presencia de un amortiguamiento significativo, ambas frecuencias pueden diferir. Para un sistema de un grado de libertad amortiguado, la relación entre la frecuencia natural y la frecuencia de resonancia viene dada por:
+
+\begin{equation}
+f_r=f_n\sqrt{1-2\zeta^2},
+\end{equation}
+
+donde $(\zeta)$ es la razón de amortiguamiento.
+
+Para valores pequeños de amortiguamiento $((\zeta \ll 1))$, la diferencia entre $(f_r)$ y $(f_n)$ es despreciable, por lo que la frecuencia asociada al máximo de la curva de resonancia pudo emplearse como una estimación experimental de la frecuencia natural.
+
+Por tanto, en el presente estudio, la frecuencia natural se estimó a partir de la frecuencia de excitación que produjo la máxima respuesta vibratoria de la estructura.
+
+Finalmente, con el propósito de evaluar la capacidad predictiva del modelo matemático desarrollado, se realizó una comparación entre las respuestas dinámicas obtenidas experimentalmente y aquellas generadas mediante simulación numérica. Se consideró que el modelo reproduce adecuadamente el comportamiento dinámico de la estructura cuando las diferencias entre los resultados experimentales y simulados se mantienen dentro del margen de incertidumbre asociado al sistema de medición, las simplificaciones del modelo y las condiciones experimentales.
+
+
+
+% =================================================
+\subsection{Resultados Numéricos}
+
+En esta sección se detallan los resultados computacionales obtenidos mediante la resolución numérica del modelo parametrizado ($m = 0.368\text{ kg}$, $k = 400\text{ N/m}$, $\zeta = 0.05$ y $F_0 = 0.066\text{ N}$). A partir de la solución del sistema en el espacio de estados, se evaluó de forma rigurosa la respuesta dinámica de la estructura frente a un barrido discreto de frecuencias de excitación entre $2.0\text{ Hz}$ y $10.0\text{ Hz}$.
+
+A bajas frecuencias de operación ($2.0\text{ Hz}$ a $3.0\text{ Hz}$), el sistema responde en un régimen gobernado por la rigidez elástica, donde las amplitudes máximas de aceleración teórica se confinan por debajo de los $0.09\text{ m/s}^2$. Al aproximarse al entorno crítico de acoplamiento dinámico ($4.0\text{ Hz}$ a $5.0\text{ Hz}$), el factor de amplificación dinámica provoca un crecimiento exponencial de las oscilaciones. 
+
+El pico absoluto de respuesta se localiza en la frecuencia natural de $5.25\text{ Hz}$, registrando una amplitud crítica de $1.794\text{ m/s}^2$. Por encima de este umbral ($6.0\text{ Hz}$ a $10.0\text{ Hz}$), la respuesta decrece de manera asintótica al entrar en un régimen dominado por la inercia de la masa, atenuándose hacia valores cercanos a los $0.25\text{ m/s}^2$. En la Tabla~\ref{tab:resultados_numericos_teoricos} se consolidan los valores discretos del barrido numérico permanente.
+\begin{table*}[t] % El asterisco hace que ocupe todo el ancho
+\centering
+\caption{Valores teóricos de la amplitud de aceleración en estado estacionario mediante el barrido numérico.}
+\label{tab:resultados_numericos_teoricos}
+\begin{tabular}{cc}
+\hline
+\textbf{Frecuencia de Excitación (Hz)} & \textbf{Amplitud de Aceleración Teórica ($\text{m/s}^2$)} \\ \hline
+2.0 & 0.030 \\
+3.0 & 0.087 \\
+4.0 & 0.245 \\
+5.0 & 1.230 \\
+\textbf{5.25 (Resonancia)} & \textbf{1.794} \\
+6.0 & 0.714 \\
+7.0 & 0.404 \\
+8.0 & 0.313 \\
+9.0 & 0.270 \\
+10.0 & 0.247 \\ \hline
+\end{tabular}
+\end{table*}
+
+Para comprender la evolución temporal del sistema bajo la condición crítica de sincronización, se generó el perfil cinemático completo a la frecuencia de resonancia de $5.25\text{ Hz}$, el cual se presenta en la gráfica uno.
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{uno.png}
+    \caption{Respuesta cinemática en el dominio del tiempo a una frecuencia de excitación de 5.25 Hz (Gráfica uno).}
+    \label{fig:respuesta_cinematica}
+\end{figure*}
+
+La interpretación de la gráfica uno permite identificar con claridad dos regímenes dinámicos bien diferenciados. Durante los primeros 5 segundos de simulación, el sistema exhibe el periodo transitorio, caracterizado por un crecimiento progresivo y oscilatorio de la amplitud a partir del reposo absoluto. A partir del segundo 5, la disipación elástica estabiliza el sistema, dando lugar al régimen permanente estacionario. In esta fase, la aceleración total se consolida como una onda armónica pura, perfectamente simétrica, confinada de forma estable entre los extremos de $\pm 1.794\text{ m/s}^2$.
+
+Posteriormente, con el objetivo de aislar la componente fundamental y validar la pureza de la señal simulada en régimen permanente, se aplicó la Transformada Rápida de Fourier (FFT) sobre el perfil purificado, obteniendo el espectro mostrado en la gráfica dos.
+
+\begin{figure*}[ht]
+    \centering
+    \includegraphics[width=0.8\textwidth]{dos.png}
+    \caption{Contenido espectral de la aceleración permanente mediante la Transformada Rápida de Fourier (Gráfica dos).}
+    \label{fig:espectro_fft_num}
+\end{figure}
+
+El análisis de la gráfica dos confirma el éxito del modelado matemático lineal. El espectro de frecuencias revela un único pico dominante, sumamente agudo y perfectamente definido a la frecuencia exacta de $5.25\text{ Hz}$, cuya magnitud se acopla con el valor absoluto de $1.794\text{ m/s}^2$. La ausencia absoluta de lóbulos laterales, armónicos secundarios o ruido base en este dominio demuestra que la señal en estado permanente es armónica y libre de distorsiones, estableciendo el estándar ideal para contrastar las imperfecciones mecánicas del ensayo de laboratorio.
+%======================================================================
+\subsection{Resultados Experimentales}
+%======================================================================
+
+
+En este apartado se presentan los datos experimentales obtenidos de las aceleraciones temporales en los tres ejes espaciales ($A_x$, $A_y$ y $A_z$) para un barrido discreto de frecuencias de excitación que comprende desde $2.0\text{ Hz}$ hasta $10.0\text{ Hz}$. A la frecuencia inicial de $2.0\text{ Hz}$, las señales muestran un comportamiento uniforme de baja amplitud, registrando valores pico que se mantienen por debajo de $0.2\text{ m/s}^2$ en los tres canales de medición. Al incrementar la frecuencia a $3.0\text{ Hz}$ y $4.0\text{ Hz}$, se observa una modificación en la morfología de las ondas, caracterizada por la aparición de picos intermitentes y transitorios aislados que alcanzan valores máximos de entre $7.5\text{ m/s}^2$ y $10.0\text{ m/s}^2$.
+
+A partir de los $5.0\text{ Hz}$ y de manera sostenida hasta los $10.0\text{ Hz}$, las señales temporales entran en un régimen estacionario completamente desarrollado. En esta banda de frecuencias, la amplitud de las oscilaciones exhibe un incremento progresivo en función de la velocidad del motor, estabilizándose en una banda donde los picos máximos se sitúan de manera homogénea alrededor de los $10.0\text{ m/s}^2$ para todas las etapas superiores. 
+
+Respecto a la distribución espacial de la vibración, los perfiles de aceleración correspondientes a los ejes horizontales $x$ e $y$ presentan un comportamiento síncrono y homólogo, manifestando amplitudes idénticas y la misma densidad de oscilación en cada uno de los niveles de frecuencia evaluados. Por el contrario, el eje vertical $z$ muestra una componente diferenciada respecto al plano horizontal, visualizándose un ensanchamiento en la señal temporal y manteniendo amplitudes de oscilación con valores residuales y desviaciones respecto al cero de referencia mayores a las registradas en los ejes $x$ e $y$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.75\textheight,keepaspectratio]{mosaico_xyz.png}
+    \caption{Aceleraciones medidas en los ejes \(x\), \(y\) y \(z\) para las diferentes frecuencias de excitación.}
+    \label{fig:mosaico_xyz}
+
+\end{figure}
+
+Debido a la desviación observada en los datos globales y considerando la configuración del sistema de referencia, se optó por aislar las componentes espaciales para concentrar el análisis únicamente en el plano principal de vibración. Para ello, se presentan de forma exclusiva los perfiles temporales de aceleración correspondientes a los ejes $x$ e $y$ ($A_x$ y $A_y$) en un rango de frecuencias forzadas de $2.0\text{ Hz}$ a $10.0\text{ Hz}$. En esta escala acotada, se aprecia a $2.0\text{ Hz}$ una señal armónica de baja energía con amplitudes máximas confinadas por debajo de $0.2\text{ m/s}^2$. 
+
+Al alcanzar los $3.0\text{ Hz}$, el sistema registra una transición singular donde la amplitud experimenta un incremento gradual y sostenido en el tiempo, estabilizándose en valores pico cercanos a los $2.0\text{ m/s}^2$. No obstante, a la frecuencia de $4.0\text{ Hz}$ las señales muestran un cambio morfológico, manifestando un patrón más denso y fluctuante con picos transitorios que se extienden hasta los $4.0\text{ m/s}^2$.
+
+A partir de los $5.0\text{ Hz}$ y de manera homogénea hasta los $10.0\text{ Hz}$, el plano horizontal exhibe un régimen estacionario completamente simétrico. A lo largo de este intervalo de frecuencias superiores, las curvas temporales de ambos ejes se superponen de forma casi perfecta, manteniendo amplitudes máximas acotadas de manera regular entre $2.0\text{ m/s}^2$ y $4.0\text{ m/s}^2$. Esta estabilización del vector de aceleración en el plano $x$-$y$ confirma una respuesta síncrona y una distribución equitativa de la energía dinámica en las dos direcciones ortogonales una vez superadas las irregularidades de las etapas iniciales de menor velocidad.
+
+
+Con el objetivo de eliminar los efectos inducidos por la orientación del sistema de referencia y mitigar las desviaciones estáticas observadas en las componentes individuales, se procedió a calcular el módulo de la aceleración total considerando los tres ejes espaciales simultáneamente. En esta representación global, los resultados temporales para el barrido de frecuencias entre $2.0\text{ Hz}$ y $10.0\text{ Hz}$ muestran una evolución más homogénea de la energía dinámica del sistema. A la frecuencia de $2.0\text{ Hz}$, la señal se caracteriza por un perfil de oscilación uniforme y confinado, con valores de amplitud que se mantienen estrictamente por debajo de $0.15\text{ m/s}^2$.
+
+Al avanzar hacia las frecuencias de $3.0\text{ Hz}$ y $4.0\text{ Hz}$, se evidencia una transición en el régimen vibratorio, donde el módulo de la aceleración registra un incremento abrupto y la aparición de picos transitorios discretos que alcanzan magnitudes de entre $6.0\text{ m/s}^2$ y $10.0\text{ m/s}^2$. Este cambio morfológico refleja una mayor densidad de fluctuaciones temporales asociadas al inicio de la excitación forzada.
+
+A partir de los $5.0\text{ Hz}$ y de manera sostenida en todo el espectro superior hasta alcanzar los $10.0\text{ Hz}$, el comportamiento del módulo se estabiliza en un régimen estacionario continuo. A lo largo de esta banda de frecuencias, la envolvente de la señal temporal delimita picos de aceleración total que se sitúan de forma recurrente entre los $7.5\text{ m/s}^2$ y los $10.0\text{ m/s}^2$. Esta consolidación de la amplitud demuestra que, al independizar la medición de los ejes coordenados del transductor, la magnitud de la respuesta vibratoria global se mantiene acotada en una meseta de energía estable durante las etapas de mayor velocidad de operación del motor.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.75\textheight,keepaspectratio]{mosaico_xy.png}
+    \caption{Aceleraciones medidas en los ejes \(x\) e \(y\), correspondientes al plano principal de vibración de la estructura.}
+    \label{fig:mosaico_xy}
+    
+\end{figure}
+
+Con el objetivo de eliminar los efectos inducidos por la orientación del sistema de referencia y mitigar las desviaciones estáticas observadas en las componentes individuales, se procedió a calcular el módulo de la aceleración total considerando los tres ejes espaciales simultáneamente. En esta representación global, los resultados temporales para el barrido de frecuencias entre $2.0\text{ Hz}$ y $10.0\text{ Hz}$ muestran una evolución más homogénea de la energía dinámica del sistema. A la frecuencia de $2.0\text{ Hz}$, la señal se caracteriza por un perfil de oscilación uniforme y confinado, con valores de amplitud que se mantienen estrictamente por debajo de $0.15\text{ m/s}^2$.
+
+Al avanzar hacia las frecuencias de $3.0\text{ Hz}$ y $4.0\text{ Hz}$, se evidencia una transición en el régimen vibratorio, donde el módulo de la aceleración registra un incremento abrupto y la aparición de picos transitorios discretos que alcanzan magnitudes de entre $6.0\text{ m/s}^2$ y $10.0\text{ m/s}^2$. Este cambio morfológico refleja una mayor densidad de fluctuaciones temporales asociadas al inicio de la excitación forzada.
+
+A partir de los $5.0\text{ Hz}$ y de manera sostenida en todo el espectro superior hasta alcanzar los $10.0\text{ Hz}$, el comportamiento del módulo se estabiliza en un régimen estacionario continuo. A lo largo de esta banda de frecuencias, la envolvente de la señal temporal delimita picos de aceleración total que se sitúan de forma recurrente entre los $7.5\text{ m/s}^2$ y los $10.0\text{ m/s}^2$. Esta consolidación de la amplitud demuestra que, al independizar la medición de los ejes coordenados del transductor, la magnitud de la respuesta vibratoria global se mantiene acotada en una meseta de energía estable durante las etapas de mayor velocidad de operación del motor.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.75\textheight,keepaspectratio]{mosaico_atotal.png}
+    \caption{Aceleración total corregida para las diferentes frecuencias de excitación.}
+    \label{fig:mosaico_atotal}
+\end{figure}
+
+Para identificar las componentes frecuencias predominantes en el sistema dinámico, se aplicó la Transformada Rápida de Fourier (FFT) al módulo de la aceleración total para cada una de las frecuencias de excitación ensayadas. A la frecuencia de excitación inicial de $2.0\text{ Hz}$, el espectro revela un comportamiento singular donde el pico de máxima amplitud no coincide con la velocidad de operación del motor, sino que se localiza de forma atípica en los $20.15\text{ Hz}$ con una amplitud pico reducida de $0.0494\text{ m/s}^2$ y un valor RMS global de $0.0512\text{ m/s}^2$. 
+
+Al incrementar la frecuencia del motor a los $3.0\text{ Hz}$ y $4.0\text{ Hz}$, los espectros registran un cambio notable en la distribución energética. Para una excitación de $3.0\text{ Hz}$, la frecuencia pico de la respuesta se sitúa en $5.85\text{ Hz}$ con una amplitud de $0.4752\text{ m/s}^2$, mientras que a $4.0\text{ Hz}$ el pico espectral se acopla de manera casi directa en los $4.10\text{ Hz}$, elevando su amplitud a los $0.7328\text{ m/s}^2$ y duplicando el valor RMS del sistema.
+
+A partir de una frecuencia forzada de $5.0\text{ Hz}$ y de manera sostenida hasta los $10.0\text{ Hz}$, las frecuencias pico del espectro FFT se estabilizan en una banda estrecha confinada de forma regular entre los $4.80\text{ Hz}$ y los $5.25\text{ Hz}$, con total independencia del incremento en la velocidad de giro del motor. A lo largo de este intervalo superior, la energía global medida a través del valor RMS se mantiene en una meseta estable en torno a los $2.8\text{ m/s}^2$. Por su parte, la amplitud pico del espectro experimenta una evolución en dos fases bien diferenciadas: se mantiene acotada en valores inferiores a $1.0\text{ m/s}^2$ entre los $5.0\text{ Hz}$ y los $8.0\text{ Hz}$, para luego experimentar un incremento súbito en las etapas finales de $9.0\text{ Hz}$ y $10.0\text{ Hz}$, donde las amplitudes máximas del armónico dominante se elevan hasta alcanzar los $1.7423\text{ m/s}^2$ y $1.7953\text{ m/s}^2$, respectivamente.
+
+En la Tabla 1 se consolidan detalladamente las métricas espectrales y energéticas extraídas del análisis por cada una de las frecuencias de operación evaluadas.
+
+\begin{table*}[t]
+\centering
+\caption{Resumen de parámetros espectrales y energéticos de la aceleración total mediante FFT.}
+\label{tab:resultados_fft}
+\small % Reducimos un poco el tamaño para que sea más elegante en ancho total
+\begin{tabular}{ccccc}
+\toprule
+\textbf{Exc. (Hz)} & \textbf{Pico FFT (Hz)} & \textbf{Amp. Pico ($\text{m/s}^2$)} & \textbf{RMS ($\text{m/s}^2$)} & \textbf{Muestreo (Hz)} \\ 
+\midrule
+2.0  & 20.15 & 0.0494 & 0.0512 & 99.61 \\
+3.0  & 5.85  & 0.4752 & 1.1988 & 99.60 \\
+4.0  & 4.10  & 0.7328 & 1.5116 & 99.61 \\
+5.0  & 4.80  & 0.6024 & 2.4289 & 99.61 \\
+6.0  & 5.00  & 0.7720 & 2.7498 & 99.61 \\
+7.0  & 5.05  & 0.9112 & 2.8127 & 99.60 \\
+8.0  & 5.25  & 0.9330 & 2.8222 & 99.61 \\
+9.0  & 5.15  & 1.7423 & 2.9558 & 99.61 \\
+10.0 & 5.25  & 1.7953 & 2.7881 & 99.61 \\ 
+\bottomrule
+\end{tabular}
+\end{table*}
+
+
+A partir de las amplitudes máximas y las frecuencias dominantes extraídas mediante el procesamiento de los nueve archivos de datos cinemáticos ($\text{2.0 Hz}$ a $\text{10.1 Hz}$), se construyó la curva de resonancia experimental del sistema. Esta curva relaciona la respuesta espectral máxima en función de la frecuencia real dominante obtenida por la FFT. Como se observa en la gráfica de respuesta, el sistema exhibe un comportamiento característico de amplificación dinámica acotada, donde la energía transferida se concentra en una banda estrecha de frecuencias.
+
+ \begin{figure}[H]
+    \centering
+    \includegraphics[width=0.7\textwidth,height=0.75\textheight,keepaspectratio]{mosaico_fft.png}
+    \caption{Espectros de frecuencia obtenidos mediante FFT para las diferentes frecuencias de excitación.}
+    \label{fig:mosaico_fft}
+ \end{figure}
+
+A bajas frecuencias de operación mecánica, la respuesta del sistema se mantiene en niveles reducidos. No obstante, al aproximarse a la zona de acoplamiento, la amplitud experimenta un crecimiento exponencial abrupto. El pico máximo absoluto de la curva de resonancia se registra al procesar el archivo correspondiente a la excitación forzada más alta, donde la frecuencia dominante de la señal se sitúa en los $5.25\text{ Hz}$, alcanzando una amplitud máxima de $1788.9786\text{ m/s}^2$ (o unidades proporcionales de cuenta espectral).
+
+De acuerdo con el principio de amplificación dinámica para sistemas con amortiguamiento moderado, la frecuencia donde la respuesta en amplitud es máxima representa la mejor aproximación experimental a la frecuencia natural rígida del sistema. Por lo tanto, el estimador experimental de la frecuencia natural se define formalmente mediante el criterio de optimización:
+
+\begin{equation}
+f_n \approx \arg\max_{f} A(f) = 5.25\text{ Hz}
+\end{equation}
+
+El ensanchamiento finito observado en la vecindad del pico (entre los $4.80\text{ Hz}$ y los $5.85\text{ Hz}$) constata la presencia de disipación de energía por amortiguamiento en el montaje estructural. Esto evita que la respuesta diverja hacia el infinito y distribuye el fenómeno de resonancia en un entorno controlado alrededor del valor central identificado de $5.25\text{ Hz}$.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\linewidth]{Frecuencia natural.png}
+    \caption{Curva de resonancia y frecuencia natural}
+    \label{fig:example_image5}
+    
+\end{figure}
+
+
+\subsection{Comparación Teoría---Experimento}
+
+La contrastación entre los datos cinemáticos extraídos empíricamente mediante el transductor MPU6050 y los resultados arrojados por la simulación numérica del oscilador armónico forzado revela un alto grado de correspondencia, validando la idoneidad del modelo matemático lineal para describir el sistema físico continuo. El principal punto de convergencia entre ambos enfoques se localiza en la condición crítica de resonancia: tanto el análisis espectral (FFT) de las señales reales como el barrido numérico identificaron el pico de máxima transferencia energética exactamente a la frecuencia de $5.25\text{ Hz}$. Este nivel de precisión confirma que la relación inercial-elástica ($\sqrt{k/m}$) asumida en la parametrización teórica representa de manera sumamente fiel las propiedades mecánicas globales de la estructura de madera y los resortes de soporte.
+
+En cuanto a la respuesta en amplitud, la aceleración máxima simulada en estado estacionario alcanzó un valor de $1.794\text{ m/s}^2$, el cual difiere en menos del $0.1\%$ respecto a la magnitud de $1.7953\text{ m/s}^2$ registrada en el ensayo físico a la misma frecuencia. Esta extraordinaria similitud demuestra que la inclusión de una razón de amortiguamiento viscoso equivalente ($\zeta = 0.05$) en la ecuación diferencial ordinaria fue una decisión acertada para modelar macroscópicamente los mecanismos complejos de disipación de energía del prototipo, tales como la fricción interna de las fibras de la madera, la histéresis del pegamento elástico en las uniones estructurales y la resistencia aerodinámica al balanceo.
+
+A pesar de la alta correlación en el entorno de la frecuencia natural, el análisis detallado de los espectros alejados de la zona de resonancia evidencia las divergencias esperadas entre un modelo idealizado y un sistema físico real. El modelo numérico genera una curva de respuesta de ensanchamiento perfectamente simétrico y transiciones suaves, asumiendo una fuerza de excitación puramente armónica y constante ($F_0\cos(\omega_d t)$). En contraste, el sistema experimental exhibió ruidos e irregularidades, particularmente a bajas velocidades. Por ejemplo, en el ensayo a $2.0\text{ Hz}$, el modelo teórico predice una oscilación limpia y casi nula ($0.030\text{ m/s}^2$), mientras que el espectro FFT experimental detectó ruido inercial anómalo concentrado en $20.15\text{ Hz}$. Esta divergencia se explica porque a bajos voltajes, el motor de corriente continua no logra un giro fluido, generando pequeños tirones mecánicos que la ecuación diferencial ideal no contempla.
+
+Finalmente, es importante destacar una limitación geométrica inherente a la simplificación analítica. El modelo matemático asume que el edificio se comporta como un sistema unidimensional de masa concentrada con un único grado de libertad. Sin embargo, la medición experimental de las aceleraciones en los ejes ortogonales ($x$, $y$, $z$) demostró que la estructura real experimenta modos de vibración acoplados en el espacio tridimensional, incluyendo componentes de torsión y balanceo fuera del plano principal debidos a las tolerancias de ensamblaje. Fue precisamente por este motivo que, para poder establecer una comparación uno a uno con el modelo numérico lineal, resultó metodológicamente indispensable procesar el módulo de la aceleración total experimental en lugar de utilizar los ejes coordenados crudos del sensor. En conjunto, las discrepancias observadas son de carácter secundario y no invalidan la robustez predictiva del modelo en su objetivo principal: localizar y cuantificar el punto de falla por resonancia elástica.
+
+
+%=================================================
+\section{Discusión de Resultados}
+%========================================
+\subsection{Resultados Numéricos}
+
+El análisis de la respuesta dinámica obtenida mediante la simulación computacional permite validar las predicciones fundamentales del modelo matemático lineal para un oscilador de un grado de libertad. Al examinar el perfil temporal presentado en la gráfica uno, se corrobora la coexistencia de los dos regímenes analíticos predichos por la teoría de ecuaciones diferenciales: la solución homogénea y la solución particular. Durante el intervalo inicial de $0.0\text{ s}$ a $5.0\text{ s}$, el comportamiento transitorio refleja el proceso de adaptación mecánica del sistema partiendo del reposo. En esta fase, la frecuencia natural intrínseca del edificio interfiere con la frecuencia forzada del motor, produciendo una fluctuación en la envolvente hasta que la disipación energética extingue la componente homogénea. A partir del segundo 5, la consolidación del régimen permanente estacionario demuestra que el sistema ha sido obligado a oscilar de forma pura y exclusiva a la frecuencia de excitación de $5.25\text{ Hz}$, validando la estabilidad asintótica del modelo ante fuerzas armónicas continuas.
+
+La magnitud absoluta de la aceleración máxima en resonancia, fijada en $1.794\text{ m/s}^2$, se encuentra estrictamente condicionada por el amortiguamiento introducido ($\zeta = 0.05$). Desde una perspectiva energética, la resonancia representa la condición ideal de máxima transferencia de trabajo neto desde la fuerza externa hacia la estructura, donde la diferencia de fase entre el desplazamiento y la excitación alcanza el valor crítico de $\pi/2$. En un oscilador ideal no amortiguado, la energía acumulada por ciclo provocaría una divergencia matemática hacia el infinito, resultando en un colapso estructural destructivo. No obstante, los resultados numéricos confirman que un factor de amortiguamiento moderado del 5\% es mecánicamente suficiente para establecer un equilibrio dinámico estable, donde la energía suministrada por el motor excéntrico se iguala exactamente con la energía disipada por el término viscoso, confinando la amplitud de oscilación a un límite físico seguro de $1.65\text{ mm}$ de desplazamiento.
+
+Por otra parte, el barrido de frecuencias consolidado en la Tabla~\ref{tab:resultados_numericos_teoricos} permite discutir los límites asintóticos del oscilador forzado. A frecuencias bajas ($2.0\text{ Hz}$ a $3.0\text{ Hz}$), la respuesta se encuentra confinada en el denominado régimen dominado por la rigidez. En esta banda, la inercia de la masa y las fuerzas disipativas son despreciables frente a la oposición elástica de los resortes; por ende, el desplazamiento es prácticamente constante ($X \approx F_0/k_{\text{total}}$) y la aceleración experimenta un crecimiento estrictamente cuadrático proporcional al cuadrado de la frecuencia angular ($a \approx X \cdot \omega_d^2$). Contrariamente, al superar el umbral crítico e ingresar a la banda de altas frecuencias ($6.0\text{ Hz}$ a $10.0\text{ Hz}$), el sistema realiza una transición hacia el régimen dominado por la masa. En este estado, la inercia del bloque de $0.368\text{ kg}$ impide que la estructura acompañe las oscilaciones rápidas del motor, provocando que el desplazamiento decaiga de forma asintótica y la aceleración tienda a estabilizarse en una meseta controlada por la relación de fuerza-masa pura ($a \approx F_0/m \approx 0.179\text{ m/s}^2$).
+
+Finalmente, la pureza matemática observada en el espectro de la Transformada Rápida de Fourier (gráfica dos) actúa como el marco de referencia de control para el estudio. Al tratarse de un modelo numérico gobernado por una ecuación diferencial lineal con coeficientes constantes, el espectro de salida concentra la totalidad de su energía vibracional en un único armónico puntual centrado en los $5.25\text{ Hz}$. La ausencia de lóbulos de fuga espectral, picos secundarios o distorsiones de fondo confirma la simetría perfecta de la señal e indica que el modelo no contempla las no linealidades geométricas ni las irregularidades físicas inherentes a los componentes mecánicos reales. Este comportamiento idealizado constituye la herramienta metodológica base para aislar y comprender el fenómeno de amplificación dinámica pura, facilitando la posterior identificación de las fuentes de error e imperfecciones presentes en el montaje del laboratorio.
+%======================================================================
+\subsection{Resultados Experimentales}
+%======================================================================
+
+El comportamiento dinámico observado en la estructura elástica de madera (palos de helado) permite identificar con claridad cómo cambia la respuesta del edificio al pasar de un movimiento lento a uno que coincide con su ritmo natural de vibración. Al analizar los datos obtenidos en el barrido de $2.0\text{ Hz}$ a $10.0\text{ Hz}$, se observa que la frecuencia donde el sistema vibra con mayor fuerza se estabiliza siempre en torno a los $5.25\text{ Hz}$. En la teoría de vibraciones, si el rozamiento de una estructura es bajo, la frecuencia en la que se registra el mayor pico de amplitud (resonancia) equivale prácticamente a su frecuencia natural. Para este experimento, dadas las características ligeras de la madera y el acoplamiento con el motor, es físicamente correcto asumir que la frecuencia natural del edificio es $f_n \approx 5.25\text{ Hz}$.
+
+La causa de este movimiento radica en la fuerza centrífuga que genera el motor controlado por Arduino al girar con un peso desbalanceado. A la frecuencia más baja de $2.0\text{ Hz}$, la energía que el motor transmite es muy pequeña y no logra vencer la rigidez elástica de los palos de helado, lo que explica las bajas aceleraciones medidas por el sensor MPU. Por otra parte, el pico inesperado de $20.15\text{ Hz}$ detectado por la FFT a esta baja velocidad no se debe a un movimiento real del edificio. Este fenómeno es el resultado de la fricción interna y los pequeños tirones que da el motor al intentar girar de forma lenta, un comportamiento que el sensor inercial registra como golpes mecánicos de alta frecuencia combinados con el ruido electrónico normal del chip.
+
+Conforme la velocidad del motor aumenta hacia los $3.0\text{ Hz}$ y $4.0\text{ Hz}$, el ritmo de giro se aproxima a la frecuencia natural de la estructura, provocando que el edificio empiece a amplificar el movimiento. Un aspecto crucial ocurre entre los $5.0\text{ Hz}$ y los $10.0\text{ Hz}$: a pesar de que el script de Python ordenaba al motor girar cada vez más rápido, la FFT demuestra que la vibración principal del edificio se quedó estancada entre los $4.80\text{ Hz}$ y los $5.25\text{ Hz}$. Esto sucede porque la estructura de madera funciona como un filtro mecánico; una vez que la velocidad del motor supera la frecuencia natural, el edificio ignora el ritmo del motor y continúa oscilando a su propio ritmo fundamental, lo que estabiliza la energía global (valor RMS) en una meseta regular de aproximadamente $2.8\text{ m/s}^2$.
+
+El hecho de que el pico en la curva de resonancia sea redondeado y no una línea infinita es la prueba física de que el sistema disipa energía. Aunque el amortiguamiento sea lo suficientemente bajo como para no alterar el cálculo de la frecuencia natural, este rozamiento actúa a través de dos componentes: la fricción interna de las fibras de madera junto con la elasticidad del pegamento utilizado en las uniones, y la resistencia que ofrece el aire al movimiento del marco. Este amortiguamiento es el que protege al edificio de palos de helado, absorbiendo el impacto y limitando la amplitud espectral máxima a $1.7953\text{ m/s}^2$ en los puntos de mayor velocidad, evitando así un colapso estructural destructivo durante el ensayo.
+
+A pesar de la coherencia de los resultados, existen fuentes de error asociadas a los instrumentos y al montaje que deben considerarse. La tasa de muestreo del sensor MPU ($99.61\text{ Hz}$), aunque es adecuada para el rango del experimento, obliga a la FFT a dividir los resultados en frecuencias a intervalos fijos. Esto significa que el pico real de resonancia pudo ocurrir ligeramente al lado del valor calculado, pero el software se vio forzado a asignarlo a la casilla disponible de $5.25\text{ Hz}$. Asimismo, las vibraciones y desviaciones registradas en el eje vertical $z$ demuestran que el edificio real no se mueve en un plano bidimensional perfecto. La atracción constante de la gravedad sobre el sensor y la flexibilidad de los pilares de madera provocan balanceos y torsiones fuera del plano principal $x$-$y$.
+
+Finalmente, es necesario señalar que modelar el edificio como un sistema ideal de un solo grado de libertad es una simplificación. En la realidad, la masa no está concentrada únicamente en la parte superior, sino distribuida en cada palito de la estructura. Además, la rigidez del pegamento y la madera tiende a debilitarse sutilmente bajo vibraciones continuas debido a la fatiga del material y a la aparición de microfisuras en las uniones. Por último, el intervalo de registro de 20 segundos por cada frecuencia incluye los instantes en los que el motor acelera o frena, introduciendo variaciones temporales que distorsionan levemente el espectro puro de la FFT alrededor del pico principal de resonancia.
+
+%=================================================
+\section{Conclusiones}
+
+% =================================================
+
+A partir del análisis de los resultados espectrales y temporales obtenidos mediante el barrido dinámico de frecuencias, se concluye con éxito que la frecuencia natural elástica del edificio de palos de helado se sitúa en $f_n \approx 5.25\text{ Hz}$. La validez de este estimador experimental se fundamenta en el criterio de optimización por máxima respuesta elástica, donde la condición de bajo amortiguamiento del montaje mecánico permite igualar directamente la frecuencia de máxima amplitud en la curva de resonancia con la frecuencia natural del sistema fundamental.
+
+Se comprobó que la estructura elástica se comporta físicamente como un filtro pasabanda ante excitaciones externas. A frecuencias inferiores a la natural, el sistema opera en un régimen rígido de baja transferencia energética, mientras que al superar el umbral de los $5.25\text{ Hz}$, la respuesta espectral principal se desvincula de la velocidad de giro impuesta por el motor, encajonándose de forma permanente en el modo fundamental de vibración del edificio y estabilizando el nivel energético global (RMS) en una meseta regular de $2.8\text{ m/s}^2$.
+
+El pegamento y la elasticidad natural de los palos de helado juegan un papel crítico en la supervivencia de la estructura debido al amortiguamiento estructural interno. Este mecanismo disipador de energía suaviza el pico de resonancia y evita que las oscilaciones incrementen de manera descontrolada hacia valores infinitos destructivos, confinando la amplitud espectral máxima observada a un límite seguro de $1.7953\text{ m/s}^2$ y absorbiendo los impactos cíclicos durante las fases de mayor exigencia inercial.
+
+Por último, el cálculo del módulo de la aceleración total demostró ser una herramienta metodológica indispensable para independizar los resultados cinemáticos del sistema de referencia del transductor MPU. Este procedimiento permitió mitigar los sesgos estáticos inducidos por la gravedad terrestre y las componentes transitorias de torsión fuera del plano principal $x$-$y$, aislando de manera efectiva la energía de vibración pura de la estructura continua frente a las limitaciones de cuantización temporal del sensor y las perturbaciones dinámicas de la aceleración del motor.
+
+Desde la perspectiva analítica, se concluye que el modelado de la estructura como un oscilador armónico forzado y amortiguado de un solo grado de libertad fue sumamente exitoso para predecir la dinámica en el régimen estacionario. La resolución numérica de la ecuación diferencial mediante integración en Python arrojó una amplitud crítica de $1.794\text{ m/s}^2$, coincidiendo con un margen de error inferior al $0.1\%$ respecto al pico experimental ($1.7953\text{ m/s}^2$). Esta convergencia valida contundentemente la parametrización de las constantes físicas empleadas ($m = 0.368\text{ kg}$ y $k_{\text{total}} = 400\text{ N/m}$).
+
+Adicionalmente, se demostró que agrupar todos los fenómenos disipativos de la maqueta (fricción aerodinámica, deformación plástica del pegamento y rozamiento interno de la madera) bajo un único coeficiente de amortiguamiento viscoso lineal equivalente ($\zeta = 0.05$) es una aproximación macroscópica válida y altamente precisa. Esta simplificación matemática permitió reproducir con exactitud el ensanchamiento de la curva de resonancia sin necesidad de recurrir a modelos de disipación no lineales mucho más complejos computacionalmente.
+
+%===========================================
+\section{Recomendaciones}
+
+% =================================================
+
+
+
+Con base en las limitaciones instrumentales y estructurales identificadas durante el desarrollo experimental, se plantean las siguientes recomendaciones para futuros ensayos:
+
+Para optimizar la calidad de los datos espectrales y evitar la pérdida de resolución en la FFT, se recomienda incrementar la tasa de muestreo del sensor MPU o utilizar un acelerómetro con un conversor analógico-digital (ADC) de mayor velocidad acoplado a un sistema de adquisición en tiempo real. Esto reducirá el error de cuantización temporal y permitirá definir con mayor exactitud matemática la ubicación del pico de resonancia mediante un intervalo de frecuencias ($\Delta f$) mucho más estrecho.
+
+Asimismo, es aconsejable modificar la estrategia de control programada en Python para implementar un barrido de frecuencias continuo y automatizado que descarte los primeros segundos de cada etapa. Al aislar y registrar únicamente el régimen estacionario consolidado una vez que el motor ha estabilizado su velocidad de giro, se eliminará la contaminación del espectro provocada por las aceleraciones transitorias, limpiando las bandas laterales de la señal fundamental.
+
+Desde el punto de vista del diseño del modelo, se sugiere rigidizar las uniones del edificio sustituyendo los adhesivos elásticos comerciales por resinas epóxicas rígidas de curado rápido. Este cambio minimizará el amortiguamiento histerético no lineal de las juntas y estabilizará las propiedades mecánicas de la estructura bajo ciclos de carga sostenidos, aproximando el prototipo de palos de helado de forma más fiel a un sistema elástico lineal ideal.
+
+Finalmente, para controlar los acoplamientos tridimensionales y las vibraciones espurias registradas fuera del plano horizontal, se recomienda incorporar guías de deslizamiento lateral o restricciones mecánicas que confinen el movimiento del edificio exclusivamente al plano $x$-$y$. De igual manera, realizar una calibración estática previa del sensor inercial (\textit{autozero}) antes de iniciar el motor mitigará el sesgo impuesto por el campo gravitatorio sobre el eje vertical $z$.
+En cuanto al perfeccionamiento del modelo matemático, se recomienda actualizar la ecuación diferencial para incorporar una amplitud de fuerza dependiente de la frecuencia. Dado que la excitación proviene de una masa excéntrica en rotación, la fuerza real no es constante, sino que obedece a la relación $F_0 = m_e r \omega_d^2$. Programar la simulación en Python considerando este factor cuadrático permitirá modelar de forma más rigurosa las amplitudes en las frecuencias bajas y altas del barrido, eliminando pequeñas discrepancias en las colas de la curva teórica.
+
+Finalmente, para estudios posteriores que busquen analizar el comportamiento fuera del eje principal de vibración, se sugiere escalar el abordaje analítico hacia un modelo de Múltiples Grados de Libertad (MDOF, por sus siglas en inglés). Introducir matrices de masa y rigidez permitirá calcular computacionalmente no solo el modo fundamental vertical, sino también las frecuencias naturales secundarias asociadas a la flexión de los pilares de madera y la torsión de la plataforma, acercando la simulación a un gemelo digital tridimensional completo.
+
+\end{multicols}
+
+\begin{thebibliography}{99}
+\bibitem[Sears y Zemansky(2009)]{sears_zemansky}
+Sears, F. W. y Zemansky, M. W. (2009).
+\textit{Física universitaria con física moderna}.
+Pearson Educación.
+
+\bibitem[Peralta et al.(2009)]{Peralta2009}
+Peralta, J. A., Reyes López, P. y Godínez Muñoz, A. (2009).
+\textit{El fenómeno de la resonancia}.
+Latin-American Journal of Physics Education, 3(3), 612--618.
+
+\bibitem[Serway y Jewett(2018)]{Serway2018}
+Serway, R. A. y Jewett, J. W. (2018).
+\textit{Physics for Scientists and Engineers} (10a ed.).
+Cengage Learning.
+
+\bibitem[Tipler y Mosca(2008)]{Tipler2008}
+Tipler, P. A. y Mosca, G. (2008).
+\textit{Physics for Scientists and Engineers} (6a ed.).
+W. H. Freeman.
+
+\bibitem[French(1971)]{French1971}
+French, A. P. (1971).
+\textit{Vibrations and Waves}.
+W. W. Norton \& Company.
+
+\bibitem[Feynman et al.(2011)]{Feynman2011}
+Feynman, R. P., Leighton, R. B. y Sands, M. (2011).
+\textit{The Feynman Lectures on Physics, Vol. I}.
+Basic Books.
+
+\bibitem[Halliday et al.(2014)]{Halliday2014}
+Halliday, D., Resnick, R. y Walker, J. (2014).
+\textit{Fundamentals of Physics} (10th ed.).
+John Wiley \& Sons.
+
+
+
+\bibitem[Dynamox(2023a)]{dynamox_fft}
+Dynamox (2023).
+\textit{¿Qué es la FFT y cómo interpretarla en el análisis de vibración industrial?}
+Blog de Dynamox.
+
+\bibitem[Dynamox(2023b)]{dynamox_espectral}
+Dynamox (2023).
+\textit{Análisis espectral: cómo aplicarlo para analizar las vibraciones en activos industriales}.
+Blog de Dynamox.
+
+\bibitem[Erbessd Instruments(2021)]{erbessd_resonancia}
+Erbessd Instruments (2021).
+\textit{Resonancia y frecuencia natural: conceptos fundamentales en el análisis de vibraciones}.
+Artículos Técnicos de Erbessd Instruments.
+
+\bibitem[Martínez Manzano(2020)]{martinez_manzano}
+Martínez Manzano, J. (2020).
+\textit{Análisis de señales dinámicas y su aplicación al estudio de sistemas mecánicos}.
+Universidad de Murcia.
+
+\bibitem[Montajes Alhama(2022)]{montajes_alhama}
+Montajes Alhama (2022).
+\textit{SFRA: Análisis de respuesta en barrido de frecuencia y diagnóstico de fallas}.
+Artículos Técnicos de Montajes Alhama.
+
+\bibitem[Naylamp Mechatronics(2019)]{naylamp_mpu6050}
+Naylamp Mechatronics (2019).
+\textit{Tutorial MPU6050: Configuración y lectura del acelerómetro y giroscopio}.
+Blog de Naylamp Mechatronics.
+
+\bibitem[Svantek(2024)]{svantek_fft}
+Svantek (2024).
+\textit{Transformada Rápida de Fourier (FFT): Fundamentos y aplicaciones en acústica y vibraciones}.
+Academia Svantek.
+
+\bibitem[Universidad de la Habana(2021)]{uh_fourier_estructural}
+Universidad de la Habana (2021).
+\textit{Aplicación de la transformada de Fourier y la FFT en ingeniería estructural}.
+Repositorio Documental Studocu.
+
+\bibitem[Vibration Research(2025)]{vibration_research_sweep}
+Vibration Research (2025).
+\textit{Sine Sweep Test: Methodology, application, and analysis in vibration testing}.
+Vibration Research University.
+
+\end{thebibliography}
+
+\end{thebibliography}
+```
+
+
+% =================================================
+\appendix
+
+\section{Código de Arduino}
+\begin{lstlisting}
+#include <Wire.h>
+#include <MPU6050.h>
+MPU6050 mpu;
+// Pines L298N
+const int ENA = 9;
+const int IN1 = 7;
+const int IN2 = 8;
+int pwmValue = 0;
+// Control del experimento
+bool experimentoActivo = false;
+// Muestreo: 100 Hz
+const unsigned long sampleInterval = 10;
+unsigned long previousMillis = 0;
+void setup() {
+  Serial.begin(115200);
+  Wire.begin();
+  mpu.initialize();
+  if (!mpu.testConnection()) {
+    Serial.println("ERROR_MPU");
+    while (true);}
+  pinMode(ENA, OUTPUT);
+  pinMode(IN1, OUTPUT);
+  pinMode(IN2, OUTPUT);
+  digitalWrite(IN1, HIGH);
+  digitalWrite(IN2, LOW);
+  analogWrite(ENA, 0);
+  Serial.println("ARDUINO_LISTO");}
+void loop() {
+  // ==========================
+  // RECIBIR COMANDOS
+  // ==========================
+  if (Serial.available()) {
+    String comando = Serial.readStringUntil('\n');
+    comando.trim();
+    Serial.print("RECIBIDO -> ");
+    Serial.println(comando);
+    if (comando.startsWith("PWM:")) {
+      pwmValue = comando.substring(4).toInt();
+      pwmValue = constrain(pwmValue, 0, 255);
+      analogWrite(ENA, pwmValue);
+      Serial.print("PWM APLICADO -> ");
+      Serial.println(pwmValue);
+
+      if (pwmValue > 0) {
+
+        experimentoActivo = true;
+
+      } else {
+
+        experimentoActivo = false;
+      }    }}
+
+  // ==========================
+  // ADQUISICION DE DATOS
+  // ==========================
+  if (!experimentoActivo) {
+    return;}
+
+  unsigned long currentMillis = millis();
+  if (currentMillis - previousMillis >= sampleInterval) {
+    previousMillis = currentMillis;
+    int16_t axRaw, ayRaw, azRaw;
+    mpu.getAcceleration(
+      &axRaw,
+      &ayRaw,
+      &azRaw);
+    float ax = axRaw / 16384.0;
+    float ay = ayRaw / 16384.0;
+    float az = azRaw / 16384.0;
+    Serial.print(currentMillis);
+    Serial.print(",");
+    Serial.print(ax, 4);
+    Serial.print(",");
+    Serial.print(ay, 4);
+    Serial.print(",");
+    Serial.print(az, 4);
+    Serial.print(",");
+    Serial.println(pwmValue); }}
+\end{lstlisting}
+
+\section{Código de Python}
+
+
+\subsubsection{Código para obtencion de datos y comunicación con Arduino}
+A continuación se presenta el código utilizado para calcular la FFT:
+\begin{lstlisting}[caption={Algoritmo de la FFT en Python.}, label={code:fft_python}]
+import serial
+import pandas as pd
+import time
+# ==================================
+# CONFIGURACION
+# ==================================
+PUERTO = "COM9"      # CAMBIAR
+BAUDRATE = 115200
+# ==================================
+# CONEXION
+# ==================================
+arduino = serial.Serial(
+    PUERTO,
+    BAUDRATE,
+    timeout=1)
+# Esperar reinicio del Arduino
+time.sleep(3)
+# Vaciar buffer serial
+arduino.reset_input_buffer()
+# ==================================
+# PARAMETROS DEL EXPERIMENTO
+# ==================================
+print("\n=== EXPERIMENTO DE RESONANCIA ===")
+frecuencia = float(
+    input(
+        "Ingrese frecuencia objetivo [1 - 10 Hz]: "))
+while frecuencia < 1 or frecuencia > 10:
+    frecuencia = float(
+        input(
+            "Ingrese una frecuencia valida [1 - 10 Hz]: "))
+duracion = int(
+    input(
+        "Duracion del ensayo [s]: "))
+nombre = input(
+    "Nombre del archivo: ")
+# ==================================
+# CONVERSION Hz -> PWM
+# ==================================
+PWM_MIN = 0
+PWM_MAX = 255
+FREC_MIN = 1
+FREC_MAX = 10
+pwm = int(
+    PWM_MIN +
+    (frecuencia - FREC_MIN)
+    * (PWM_MAX - PWM_MIN)
+    / (FREC_MAX - FREC_MIN))
+print(f"\nPWM estimado: {pwm}")
+# ==================================
+# ENVIAR PWM
+# ==================================
+comando = f"PWM:{pwm}\n"
+arduino.write(comando.encode()) 
+print(f"Enviando: {comando}")
+# ==================================
+# ADQUISICION DE DATOS
+# ==================================
+datos = []
+inicio = time.time()
+while time.time() - inicio < duracion:
+    linea = (
+        arduino.readline()
+        .decode(
+            "utf-8",
+            errors="ignore")
+        .strip())
+    columnas = linea.split(",")
+    if len(columnas) == 5:
+        tiempo_ms, ax, ay, az, pwm_rx = columnas
+        datos.append([
+            frecuencia,
+            tiempo_ms,
+            ax,
+            ay,
+            az,
+            pwm_rx])
+# ==================================
+# DETENER MOTOR
+# ==================================
+arduino.write(b"PWM:0\n")
+time.sleep(1)
+arduino.close()
+# ==================================
+# GUARDAR CSV
+# ==================================
+df = pd.DataFrame(
+    datos,
+    columns=[
+        "frecuencia_objetivo_hz",
+        "tiempo_ms",
+        "ax_g",
+        "ay_g",
+        "az_g",
+        "pwm"])
+archivo = f"{nombre}.csv"
+df.to_csv(
+    archivo,
+    index=False)
+print("\nExperimento finalizado.")
+print(f"Archivo guardado: {archivo}")
+print(f"Total de muestras: {len(df)}")
+\end{lstlisting}
+\subsection{Código Procesamiento de Datos}
+\begin{lstlisting}
+# ============================================================
+#  LIBRERIAS
+# ============================================================
+import pandas as pd
+import numpy as np
+import glob
+import os
+import matplotlib.pyplot as plt
+# ============================================================
+#  RUTA DE LA CARPETA CON LOS CSV
+# ============================================================
+ruta = r"C:\Users\USER\Documents\archivos CAMILA\ESPOCH\5to Semestre\Waves & Optics\Final Project\Arduino_codigo_1\Python_cod_ex\CSV_validos"
+# Buscar todos los archivos CSV dentro de la carpeta
+files = sorted(glob.glob(os.path.join(ruta, "*.csv")))
+print(f"Se encontraron {len(files)} archivos.\n")
+# ============================================================
+#  LISTA PARA GUARDAR LOS DATAFRAMES PROCESADOS
+# ============================================================
+datos_procesados = []
+# ============================================================
+#  RECORRER CADA CSV
+# ============================================================
+for file in files:
+    # --------------------------------------------------------
+    #  Leer archivo
+    # --------------------------------------------------------
+    df = pd.read_csv(file)
+
+    # --------------------------------------------------------
+    #  Verificar que el archivo no este vacio
+    # --------------------------------------------------------
+    if df.empty:
+        print(f"Archivo vacio: {os.path.basename(file)}")
+        continue
+    # --------------------------------------------------------
+    #  Verificar columnas necesarias
+    # --------------------------------------------------------
+    columnas_requeridas = [
+        "frecuencia_objetivo_hz",
+        "tiempo_ms",
+        "ax_g",
+        "ay_g",
+        "az_g",
+        "pwm"]
+    if not all(col in df.columns for col in columnas_requeridas):
+        print(f"Faltan columnas en: {os.path.basename(file)}")
+        continue
+    # --------------------------------------------------------
+    #  Convertir tiempo: ms -> s
+    # --------------------------------------------------------
+    df["tiempo_s"] = df["tiempo_ms"] / 1000
+    # --------------------------------------------------------
+    #  Convertir aceleraciones: g -> m/s^2
+    # --------------------------------------------------------
+    g = 9.81
+    df["ax_ms2"] = df["ax_g"] * g
+    df["ay_ms2"] = df["ay_g"] * g
+    df["az_ms2"] = df["az_g"] * g
+    # --------------------------------------------------------
+    #  Guardar dataframe procesado
+    # --------------------------------------------------------
+    datos_procesados.append(df)
+    # --------------------------------------------------------
+    #  Informacion rapida
+    # --------------------------------------------------------
+    frecuencia = df["frecuencia_objetivo_hz"].iloc[0]
+    print(
+        f"{os.path.basename(file)} "
+        f"| f = {frecuencia} Hz "
+        f"| muestras = {len(df)}")
+print("\nProcesamiento inicial completado.")
+# ============================================================
+#  FILTRADO Y LIMPIEZA DE DATOS
+# ============================================================
+for i, df in enumerate(datos_procesados):
+    # --------------------------------------------------------
+    #  Extraer aceleraciones en m/s^2
+    # --------------------------------------------------------
+    ax = df["ax_ms2"].values
+    ay = df["ay_ms2"].values
+    az = df["az_ms2"].values
+    # --------------------------------------------------------
+    #  Eliminar offset de cada eje
+    # --------------------------------------------------------
+    # Esto elimina:
+    # - gravedad residual
+    # - inclinacion del sensor
+    # - offset electronico
+    # - deriva lenta
+    ax_clean = ax - np.mean(ax)
+    ay_clean = ay - np.mean(ay)
+    az_clean = az - np.mean(az)
+    # --------------------------------------------------------
+    #  Calcular aceleracion total
+    # --------------------------------------------------------
+    a_total = np.sqrt(
+        ax_clean**2 +
+        ay_clean**2 +
+        az_clean**2)
+    # --------------------------------------------------------
+    #  Eliminar componente continua residual
+    # --------------------------------------------------------
+    a_total_clean = a_total - np.mean(a_total)
+    # --------------------------------------------------------
+    #  Guardar resultados en el DataFrame
+    # --------------------------------------------------------   
+    df["ax_clean"] = ax_clean
+    df["ay_clean"] = ay_clean
+    df["az_clean"] = az_clean
+    df["a_total"] = a_total
+    df["a_total_clean"] = a_total_clean
+    # --------------------------------------------------------
+    #  Informacion de control
+    # --------------------------------------------------------
+    frecuencia = df["frecuencia_objetivo_hz"].iloc[0]
+    print(
+        f"Ensayo {i+1:02d} | "
+        f"f = {frecuencia} Hz | "
+        f"media(a_total_clean) = "
+        f"{np.mean(a_total_clean):.3e}")
+print("\nFiltrado y limpieza completados.")
+# ============================================================
+#  ORDENAR ENSAYOS POR FRECUENCIA
+# ============================================================
+datos_ordenados = sorted(
+    datos_procesados,
+    key=lambda df: df["frecuencia_objetivo_hz"].iloc[0])
+frecuencias = [
+    df["frecuencia_objetivo_hz"].iloc[0]
+    for df in datos_ordenados]
+print("Frecuencias ordenadas:")
+print(frecuencias)
+# ============================================================
+#  CARPETA DE SALIDA
+# ============================================================
+ruta_salida = r"C:\Users\USER\Documents\archivos CAMILA\ESPOCH\5to Semestre\Waves & Optics\Final Project\graficos"
+os.makedirs(ruta_salida, exist_ok=True)
+# ============================================================
+#  MOSAICO AX - AY - AZ
+# ============================================================
+n = len(datos_ordenados)
+fig, axes = plt.subplots(
+    nrows=n,
+    ncols=1,
+    figsize=(12, 3*n),
+    constrained_layout=True)
+if n == 1:
+    axes = [axes]
+for ax_plot, df in zip(axes, datos_ordenados):
+    t = df["tiempo_s"]
+    f = df["frecuencia_objetivo_hz"].iloc[0]
+    ax_plot.plot(t, df["ax_clean"],
+                 label="Ax",
+                 color="#1f3b4d",
+                 linewidth=1)
+    ax_plot.plot(t, df["ay_clean"],
+                 label="Ay",
+                 color="#4c6a92",
+                 linewidth=1)
+    ax_plot.plot(t, df["az_clean"],
+                 label="Az",
+                 color="#8aa6c1",
+                 linewidth=1)
+    ax_plot.set_title(f"{f} Hz")
+    ax_plot.set_xlabel("Tiempo (s)")
+    ax_plot.set_ylabel("Aceleracion (m/s^2)")
+    ax_plot.legend(loc="upper right")
+fig.suptitle(
+    "Aceleraciones triaxiales",
+    fontsize=16)
+plt.savefig(
+    os.path.join(ruta_salida, "mosaico_xyz.png"),
+    dpi=300,
+    bbox_inches="tight")
+plt.show()
+# ============================================================
+#  MOSAICO AX - AY
+# ============================================================
+fig, axes = plt.subplots(
+    nrows=n,
+    ncols=1,
+    figsize=(12, 3*n),
+    constrained_layout=True)
+if n == 1:
+    axes = [axes]
+for ax_plot, df in zip(axes, datos_ordenados):
+    t = df["tiempo_s"]
+    f = df["frecuencia_objetivo_hz"].iloc[0]
+    ax_plot.plot(t, df["ax_clean"],
+                 label="Ax",
+                 color="#2b6855",
+                 linewidth=1)
+    ax_plot.plot(t, df["ay_clean"],
+                 label="Ay",
+                 color="#6f4c92",
+                 linewidth=1)
+    ax_plot.set_title(f"{f} Hz")
+    ax_plot.set_xlabel("Tiempo (s)")
+    ax_plot.set_ylabel("Aceleracion (m/s^2)")
+    ax_plot.legend(loc="upper right")
+fig.suptitle(
+    "Aceleraciones en el plano XY",
+    fontsize=16)
+plt.savefig(
+    os.path.join(ruta_salida, "mosaico_xy.png"),
+    dpi=300,
+    bbox_inches="tight")
+plt.show()
+# ============================================================
+#  MOSAICO ACELERACION TOTAL
+# ============================================================
+fig, axes = plt.subplots(
+    nrows=n,
+    ncols=1,
+    figsize=(12, 3*n),
+    constrained_layout=True)
+if n == 1:
+    axes = [axes]
+for ax_plot, df in zip(axes, datos_ordenados):
+    t = df["tiempo_s"]
+    f = df["frecuencia_objetivo_hz"].iloc[0]
+    ax_plot.plot(
+        t,
+        df["a_total_clean"],
+        color="#48698e",
+        linewidth=1)
+    ax_plot.set_title(f"{f} Hz")
+    ax_plot.set_xlabel("Tiempo (s)")
+    ax_plot.set_ylabel("Aceleracion (m/s^2)")
+fig.suptitle(
+    "Aceleracion total",
+    fontsize=16)
+plt.savefig(
+    os.path.join(ruta_salida, "mosaico_atotal.png"),
+    dpi=300,
+    bbox_inches="tight")
+plt.show()
+# ============================================================
+#  LIBRERIAS NECESARIAS
+# ============================================================
+from scipy.fft import fft, fftfreq
+# ============================================================
+#  LISTAS PARA RESULTADOS GLOBALES
+# ============================================================
+frecuencias_exc = []
+picos_fft = []
+amplitudes_pico = []
+rms_list = []
+# ============================================================
+#  FFT DE CADA ENSAYO
+# ============================================================
+for df in datos_ordenados:
+    # --------------------------------------------------------
+    #  SENAL EN EL TIEMPO
+    # --------------------------------------------------------
+    t = df["tiempo_s"].values
+    a = df["a_total_clean"].values
+    # --------------------------------------------------------
+    #  VERIFICAR CANTIDAD DE DATOS
+    # --------------------------------------------------------
+    N = len(a)
+    if N < 2:
+        print("Archivo omitido: muy pocos datos")
+        continue
+    # --------------------------------------------------------
+    #  PASO TEMPORAL
+    # --------------------------------------------------------
+    dt = np.mean(np.diff(t))
+    # frecuencia de muestreo
+    fs = 1 / dt
+    # --------------------------------------------------------
+    #  FFT
+    # --------------------------------------------------------
+    yf = fft(a)
+    xf = fftfreq(N, dt)
+    # --------------------------------------------------------
+    #  CONSERVAR SOLO FRECUENCIAS POSITIVAS
+    # --------------------------------------------------------
+    idx = xf > 0
+    xf = xf[idx]
+    # normalizacion de amplitud
+    yf = (2 / N) * np.abs(yf[idx])
+    # --------------------------------------------------------
+    #  DETECCION DEL PICO PRINCIPAL
+    # --------------------------------------------------------
+    peak_index = np.argmax(yf)
+    peak_freq = xf[peak_index]
+    peak_amp = yf[peak_index]
+    # --------------------------------------------------------
+    #  RMS DE LA SENAL
+    # --------------------------------------------------------
+    rms = np.sqrt(np.mean(a**2))
+    # --------------------------------------------------------
+    #  GUARDAR RESULTADOS EN EL DATAFRAME
+    # --------------------------------------------------------
+    df.attrs["dt"] = dt
+    df.attrs["fs"] = fs
+    df.attrs["frecuencias_fft"] = xf
+    df.attrs["amplitudes_fft"] = yf
+    df.attrs["peak_freq"] = peak_freq
+    df.attrs["peak_amp"] = peak_amp
+    df.attrs["rms"] = rms
+    # --------------------------------------------------------
+    #  GUARDAR RESULTADOS GLOBALES
+    # --------------------------------------------------------
+    f_exc = df["frecuencia_objetivo_hz"].iloc[0]
+
+    frecuencias_exc.append(f_exc)
+    picos_fft.append(peak_freq)
+    amplitudes_pico.append(peak_amp)
+    rms_list.append(rms)
+    # --------------------------------------------------------
+    #  INFORMACION DE CONTROL
+    # --------------------------------------------------------
+    print("===================================")
+    print(f"Frecuencia de excitacion: {f_exc:.1f} Hz")
+    print(f"Frecuencia pico FFT:      {peak_freq:.2f} Hz")
+    print(f"Amplitud pico:            {peak_amp:.4f} m/s^2")
+    print(f"RMS:                      {rms:.4f} m/s^2")
+    print(f"Frecuencia de muestreo:   {fs:.2f} Hz")
+    print("===================================\n")
+os.makedirs(ruta_salida, exist_ok=True)
+# ============================================================
+#  MOSAICO FFT
+# ============================================================
+n = len(datos_ordenados)
+fig, axes = plt.subplots(
+    nrows=n,
+    ncols=1,
+    figsize=(12, 3*n),
+    constrained_layout=True)
+if n == 1:
+    axes = [axes]
+for ax_plot, df in zip(axes, datos_ordenados):
+    xf = df.attrs["frecuencias_fft"]
+    yf = df.attrs["amplitudes_fft"]
+    f_exc = df["frecuencia_objetivo_hz"].iloc[0]
+    peak_freq = df.attrs["peak_freq"]
+    ax_plot.plot(
+        xf,
+        yf,
+        color="#5C4681",
+        linewidth=1.2)
+    ax_plot.axvline(
+        peak_freq,
+        color="#C05A4D",
+        linestyle="--",
+        alpha=0.8,
+        label=f"Pico: {peak_freq:.2f} Hz" )
+    ax_plot.set_xlim(0, max(xf))
+    ax_plot.set_title(f"{f_exc} Hz")
+    ax_plot.set_xlabel("Frecuencia (Hz)")
+    ax_plot.set_ylabel("Amplitud")
+    ax_plot.legend(loc="upper right")
+fig.suptitle(
+    "Espectros FFT para todas las frecuencias de excitacion",
+    fontsize=16)
+plt.savefig(
+    os.path.join(ruta_salida, "mosaico_fft.png"),
+    dpi=300,
+    bbox_inches="tight")
+plt.show()
+# ============================================================
+#  CURVA DE RESONANCIA USANDO LAS FRECUENCIAS DEL FFT
+# ============================================================
+# ============================================================
+#  CONVERTIR A ARRAYS
+# ============================================================
+peak_freq_array = np.array(peak_freq_list)
+peak_amp_array = np.array(fft_peak_list)
+# verificar que existan datos
+if len(peak_freq_array) == 0:
+    print("\n No se generaron datos para la curva de resonancia.")
+else:
+    # --------------------------------------------------------
+    #  ORDENAR POR FRECUENCIA
+    # --------------------------------------------------------
+    orden = np.argsort(peak_freq_array)
+    peak_freq_array = peak_freq_array[orden]
+    peak_amp_array = peak_amp_array[orden]
+    # --------------------------------------------------------
+    #  FRECUENCIA DE RESONANCIA
+    # --------------------------------------------------------
+    indice_resonancia = np.argmax(peak_amp_array)
+    f_res = peak_freq_array[indice_resonancia]
+    amp_res = peak_amp_array[indice_resonancia]
+    # --------------------------------------------------------
+    #  CURVA DE RESONANCIA
+    # --------------------------------------------------------
+    plt.figure(figsize=(10, 6))
+    plt.plot(
+        peak_freq_array,
+        peak_amp_array,
+        'o-',
+        color="#4c6a92",
+        linewidth=2,
+        markersize=8)
+    plt.scatter(
+        f_res,
+        amp_res,
+        s=120,
+        color="#b22222",
+        zorder=5,
+        label=f"Resonancia ~= {f_res:.2f} Hz")
+    plt.xlabel("Frecuencia dominante del FFT (Hz)")
+    plt.ylabel("Amplitud maxima del FFT")
+    plt.title("Curva de resonancia experimental")
+    plt.grid(True, alpha=0.3)
+    plt.legend()
+    plt.tight_layout()
+    plt.show()
+    # --------------------------------------------------------
+    #  RESULTADOS
+    # --------------------------------------------------------
+    print("\n======================================")
+    print(f"Frecuencia de resonancia estimada: {f_res:.2f} Hz")
+    print(f"Amplitud maxima: {amp_res:.4f}")
+    print("======================================")
+\end{lstlisting}
+
+\section{Datos Experimentales}
+\url{https://drive.google.com/drive/folders/1a9za4YPPRE_T2Dwe8eKK2xYACH62njgo?usp=sharing} 
+
+\section{Esquemas del Circuito}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{esquema_circuito.png}
+    \caption{Esquema Circuito}
+    \label{fig:esquema_circuito}
+\end{figure}
+\end{document}
